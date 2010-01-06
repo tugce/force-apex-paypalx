@@ -1,0 +1,10 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>PayPal Adap tive Payments API Toolkit</h1>
+<br/><br/>
+The Adaptive Payments API enables you to send money in many different scenarios, from
+simple to complex; for example, you might build a small send money application for a social
+networking site or a robust payroll system.
+<br/><br/><br/> Check <a href="https://www.x.com">X.com</a> for more information about various PayPal Adaptive Platform APIs.
+
+</apex:page>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Force%2Ecom Toolkit for PayPal Adaptive Payments</fullName>
+    <apiAccessLevel>Unrestricted</apiAccessLevel>
+    <description>Force.com Toolkit for PayPal Adaptive Payments includes Apex Code that can be used integrate with PayPal Adaptive Payments Platforms and make use of various API operation provided to provision payments on the cloud. This open source library is also located on Force.com Code Share, found on developer.force.com</description>
+    <types>
+        <members>*</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>About_PayPal_Adaptive_Toolkit</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>PayPal_Adaptive_Toolkit</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>PPAPICredential__c</members>
+        <members>PPCommonRequestParameters__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>PPAPICredential__c</members>
+        <members>PPCommonRequestParameters__c</members>
+        <members>About_PayPal_Adaptive_Toolkit</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Logos</members>
+        <members>Logos/PayPalX_Logo.jpg</members>
+        <members>Logos/PayPalX_Small_Logo.png</members>
+        <members>Logos/PayPal_Logo.jpg</members>
+        <name>Document</name>
+    </types>
+    <types>
+        <members>PPAPICredential__c-PPAPICredential Layout</members>
+        <members>PPCommonRequestParameters__c-PPRequestParameters Layout</members>
+        <name>Layout</name>
+    </types>
+    <version>16.0</version>
+</Package>
