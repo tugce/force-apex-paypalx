@@ -83,6 +83,48 @@ global class PPPreapprovalRequest extends PPRequest {
         ClientDetails = new PPClientDetails();
     }
     
+    // Constructor w/ CommonRequestParameters object
+    global PPPreapprovalRequest(String CommonRequestParametersObjectName, String SenderEmail) {
+    	
+    	PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        // set request envelope fields
+        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+        // create and set client details
+        ClientDetails = new PPClientDetails();
+        // name of the application
+        ClientDetails.applicationId = commonRequestParameters.ApplicationName;
+        // add the remote client IP address
+        map<string , string> hdrs = ApexPages.currentPage().getHeaders();
+		if ( hdrs.get('x-original-remote-addr') != null)
+			ClientDetails.ipAddress = hdrs.get('x-original-remote-addr');
+		else if ( hdrs.get('X-Salesforce-SIP') != null)
+			ClientDetails.ipAddress = hdrs.get('X-Salesforce-SIP');
+		else 
+        	ClientDetails.ipAddress = '127.0.0.1';        	
+
+        // set sender Email == sender's PayPal Id 
+        SenderEmail = SenderEmail;
+        // set currency code - for this example we will use US Dollars
+        CurrencyCode = commonRequestParameters.CurrencyCode;
+        
+    	// defaults for everything else
+        ApiName = PPStaticRes.PREAPPROVAL_API;
+        CancelUrl = '';
+        DateOfMonth = 0; 
+        DayOfWeek = '';
+        EndingDate = NULL;
+        MaxAmountPerPayment = 0;
+        MaxNumberOfPayments = 0;
+        MaxNumberOfPaymentsPerPeriod = 0;
+        MaxTotalAmountOfAllPayment = 0;
+        PaymentPeriod = '';
+        ReturnUrl = '';
+        StartingDate = Null;
+        PinType = '';
+        IpnNotificationUrl = '';
+        Memo = '';
+    }
+    
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
 		super.setRequestEnvp(language, detailLevelCode);
 	}
