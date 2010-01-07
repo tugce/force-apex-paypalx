@@ -10,9 +10,9 @@ global class PPAdaptiveToolkit {
     }
     
     // Constructor w/ Credential & Service to set BaseAPI Profile
-    global PPAdaptiveToolkit(String APICredentialObjectName, String Service) {
+    global PPAdaptiveToolkit(String APICredentialObjectName) {
         // set the Base Profile info - API Credentials, Application Id and Environment
-        BaseAPIProfile = new PPBaseAPIProfile('SandboxCert', 'PAYMENTS');
+        BaseAPIProfile = new PPBaseAPIProfile(APICredentialObjectName);
     }
 
     // pay API provides facility to transfer funds from a sender's PayPal account  
@@ -20,6 +20,9 @@ global class PPAdaptiveToolkit {
     // simple payments, chained payments or parallel payments. These payments can
     // be explicitly approved, preapproved or implicitly approved.
     global PPPayResponse pay(PPPayRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPPayResponse response = new PPPayResponse();
         executeCommand(request, response);
         return response;
@@ -36,6 +39,9 @@ global class PPAdaptiveToolkit {
 	// can identify the payment by tracking ID, the PayPal transaction ID or the pay
 	// key associated with the payment.
     global PPPaymentDetailsResponse paymentDetails(PPPaymentDetailsRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPPaymentDetailsResponse response = new PPPaymentDetailsResponse();
         executeCommand(request, response);
         return response;
@@ -48,6 +54,9 @@ global class PPAdaptiveToolkit {
 	// amount, a specific day of the week or the month, and whether or not a PIN is 
 	// required for each payment request.    
 	global PPPreapprovalResponse preapproval(PPPreapprovalRequest request) {
+		// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPPreapprovalResponse response = new PPPreapprovalResponse();
         executeCommand(request, response);
         return response;
@@ -63,6 +72,9 @@ global class PPAdaptiveToolkit {
     // preapprovalDetails API provides facility to obtain information about an agreement
 	// between Merchant and a sender for making payments on the sender's behalf.
     global PPPreapprovalDetailsResponse preapprovalDetails(PPPreapprovalDetailsRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPPreapprovalDetailsResponse response = new PPPreapprovalDetailsResponse();
         executeCommand(request, response);
         return response;
@@ -71,6 +83,9 @@ global class PPAdaptiveToolkit {
     // cancelPreapproval API facilitates to cancel a agreement between Merchant and
     // sender for making payments on the sender's behalf.
     global PPCancelPreapprovalResponse cancelPreapproval(PPCancelPreapprovalRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPCancelPreapprovalResponse response = new PPCancelPreapprovalResponse();
         executeCommand(request, response);
         return response;
@@ -81,6 +96,9 @@ global class PPAdaptiveToolkit {
     // refund by the payment key or tracking ID and optionally, by transaction ID 
     // or the receivers of the original payment.
     global PPRefundResponse refund(PPRefundRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPRefundResponse response = new PPRefundResponse();
         executeCommand(request, response);
         return response;
@@ -89,6 +107,9 @@ global class PPAdaptiveToolkit {
 	// convertCurrency_PP API lets your application request the current foreign exchange (FX) rate
 	// for a specific amount and currency
     global PPConvertCurrencyResponse convertCurrency_PP(PPConvertCurrencyRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
         PPConvertCurrencyResponse response = new PPConvertCurrencyResponse();
         executeCommand(request, response);
         return response;
@@ -99,6 +120,9 @@ global class PPAdaptiveToolkit {
 	// or for customers using your application to access someone else's website or 
 	// device.
     global PPCreateAccountResponse createAccount(PPCreateAccountRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT;
+    	// send the request
         PPCreateAccountResponse response = new PPCreateAccountResponse();
         executeCommand(request, response);
         return response;
@@ -107,6 +131,9 @@ global class PPAdaptiveToolkit {
     // getUserAgreement API provides facility to request the PayPal's user agreement
 	// for the user to approve during account creation.
     global PPGetUserAgreementResponse getUserAgreement(PPGetUserAgreementRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT;
+    	// send the request
         PPGetUserAgreementResponse response = new PPGetUserAgreementResponse();
         executeCommand(request, response);
         return response;

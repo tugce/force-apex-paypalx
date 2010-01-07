@@ -98,9 +98,9 @@ global class PPBaseAPIProfile {
 	}
 	
 	// Constructor that sets up APICredentials and Service
-	global PPBaseAPIProfile (String APICredentialObjectName, String Service) {
+	global PPBaseAPIProfile (String APICredentialObjectName) {
 		
-		PPAPICredentials apiCredObj = new PPAPICredentials('SandboxCert');
+		PPAPICredentials apiCredObj = new PPAPICredentials(APICredentialObjectName);
         // set the API credentials
         APIUsername = apiCredObj.APIUsername;
         APIPassword = apiCredObj.APIUserpassword;        
@@ -129,19 +129,12 @@ global class PPBaseAPIProfile {
         	Environment = EnvironmentType.ENVIRONMENT_TYPE_UNKNOWN;
         }
         
-        if(Service == 'PAYMENTS') {
-        	AdaptiveService = ServiceType.SERVICE_TYPE_PAYMENTS;
-        } else if(Service == 'ACCOUNT') {
-        	AdaptiveService = ServiceType.SERVICE_TYPE_ACCOUNT;
-        } else {
-        	AdaptiveService = ServiceType.SERVICE_TYPE_UNKNOWN;
-        } 
-        
         // defaults for the rest
 		DeviceID = '';
 		DeviceIPAddress = '';		
 		ServiceVersion = '';
 		Subject = '';
+		AdaptiveService = ServiceType.SERVICE_TYPE_UNKNOWN;
 	}
 	global String getEndPoint() { return m_EndPoint; }
     global String getPayPalLoginPage() { return m_LoginPage; }
