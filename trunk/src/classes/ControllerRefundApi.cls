@@ -7,7 +7,8 @@ public class ControllerRefundApi {
 	
 	public PPRefundRequest RefundRequest							{get;set;}
 	public PPRefundResponse RefundResponse							{get;set;}
-	
+	public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
 	public RefundInfo refundInfo 									{get;set;}
 	public List<RefundInfo> refundInfoList 							{get;set;}
 	public PPRefundInfo refInfo 									{get;set;}
@@ -18,7 +19,7 @@ public class ControllerRefundApi {
 //	public List<PPRefundInfo> refInfo {get;set;}
 	
 	public ControllerRefundApi(){
-		RefundRequest=new PPRefundRequest('REQ-PARAMS1');
+		
 		RefundResponse=new PPRefundResponse();
 		Receivers = new List<PPReceiver>();
 		
@@ -34,6 +35,7 @@ public class ControllerRefundApi {
 	public Boolean IsErr{get;set;}
 		
 	public Pagereference apply(){
+		RefundRequest=new PPRefundRequest(CommonParametersObjName);
         RefundRequest.receiverList.clear();
 		MainMessage = '';
 		IsDisplay = false;
@@ -45,7 +47,7 @@ public class ControllerRefundApi {
         }
 		
         // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         try {
             RefundResponse = toolkit.refund( RefundRequest );
             RespEnvp = RefundResponse.getResponseEnvelope(); 

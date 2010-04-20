@@ -24,14 +24,14 @@ private class ControllerRefundApiTest {
 
 	static testMethod void testControllerRefundApi(){
 		ControllerRefundApi contRefundApi = new ControllerRefundApi();
-		System.assert(contRefundApi.RefundRequest != null);
+		System.assert(contRefundApi.refundInfoList != null);
 		System.assert(contRefundApi.RefundResponse != null);
 		System.assert(contRefundApi.Receivers != null);
 	}
     static testMethod void testApply() {
         // TO DO: implement unit test
         ControllerRefundApi contRefundApi = new ControllerRefundApi();
-		System.assert(contRefundApi.RefundRequest != null);
+		System.assert(contRefundApi.refundInfoList != null);
 		System.assert(contRefundApi.RefundResponse != null);
 		System.assert(contRefundApi.Receivers != null);
     }

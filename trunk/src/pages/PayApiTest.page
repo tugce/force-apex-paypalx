@@ -23,6 +23,26 @@
                 </apex:pageBlockButtons>
                 
          <!---COMMON INFORMATION SECTION-->
+         		<apex:pageblocksection title="Common Request Parameters"  columns="2"  id="CommonPrmsId">
+                  <apex:pageblocksectionitem >
+   
+                  		<apex:OUTPUTTEXT style="background-color:red;color:red;">Common Parameters Object Name</apex:OUTPUTTEXT>
+                  		<apex:outputPanel >
+                          <apex:outputText style="background-color:red;color:red;" value="I"/>
+                        <apex:inputtext value="{!CommonParametersObjName}"/>
+                        </apex:outputPanel>
+                  </apex:pageblocksectionitem>
+
+                    <apex:pageblocksectionitem >
+
+                        <apex:OUTPUTTEXT style="background-color:red;color:red;">API Credential Object Name:</apex:OUTPUTTEXT>
+                        <apex:outputPanel >
+                          <apex:outputText style="background-color:red;color:red;" value="I"/>
+                        <apex:inputtext value="{!APICredentialObjName}"/>
+                        </apex:outputPanel>
+                    </apex:pageblocksectionitem>
+                        
+                </apex:pageblocksection>  
                 
                 <apex:pageblocksection title="Common Information" columns="2">
                     <apex:pageblocksectionitem >

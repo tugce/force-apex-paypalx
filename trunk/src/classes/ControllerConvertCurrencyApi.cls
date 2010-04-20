@@ -6,7 +6,8 @@ public class ControllerConvertCurrencyApi {
     public PPConvertCurrencyRequest ConvertCurrencyRequest  	{get;set;}
     public PPConvertCurrencyResponse ConvertCurrencyResponse	{get;set;}
     public PPResponseEnvelope respEnvp							{get;set;}
-    
+    public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
     public Boolean isDisplay									{get;set;}
     public PPResponseEnvelope ResponseEnvelope					{get;set;}
     public Boolean isErr										{get;set;}
@@ -39,7 +40,7 @@ public class ControllerConvertCurrencyApi {
         isErr = false ;
         Pagereference page=null;           
 		// create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         
         list<PPCurrencyType> BaseAmountList = new list<PPCurrencyType>();
         list<String> ConvertToCurrencyList = new list<String>();

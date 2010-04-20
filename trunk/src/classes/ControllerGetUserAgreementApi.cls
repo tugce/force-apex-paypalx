@@ -2,7 +2,8 @@ public class ControllerGetUserAgreementApi {
 	
 	public PPGetUserAgreementRequest GetUserAgreementRequest 	{get;set;}
 	public PPGetUserAgreementResponse GetUserAgreementResponse	{get;set;}
-	
+	public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
 	public String MainMessage									{get;set;}
 	
 	public String Userid										{get;set;}

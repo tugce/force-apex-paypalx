@@ -24,6 +24,6 @@ private class ControllerCreateAccountApiTest {
 
     static testMethod void testApply() {
         ControllerCreateAccountApi tmp = new ControllerCreateAccountApi();
-        System.assert(tmp.CreateAccountRequest != null);
+        System.assert(tmp != null);
     }
 }

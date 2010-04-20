@@ -14,8 +14,10 @@ public class ControllerPreapprovalDetailApi {
 
 	public PPResponseEnvelope respEnvp								{get;set;}
 
+	public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
 	
-
+	public String preapprovalKey									{get;set;}
 	public Boolean isDisplay										{get;set;}
 
 	public PPResponseEnvelope ResponseEnvelope						{get;set;}
@@ -26,7 +28,7 @@ public class ControllerPreapprovalDetailApi {
 
 	public ControllerPreapprovalDetailApi(){
 
-		PreapprovalDetailRequest=new PPPreapprovalDetailsRequest('REQ-PARAMS1');
+		
 
 		PreapprovalDetailResponse=new PPPreapprovalDetailsResponse();
 
@@ -41,8 +43,11 @@ public class ControllerPreapprovalDetailApi {
 		isErr = false ;
 
 	   	Pagereference page=null;
+	   	
+	   	PreapprovalDetailRequest=new PPPreapprovalDetailsRequest(CommonParametersObjName);
+	   	PreapprovalDetailRequest.PreapprovalKey = preapprovalKey;
 	    // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
 
 
        	try {

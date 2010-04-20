@@ -5,7 +5,8 @@ public class ControllerPayApi {
     public PPPayResponse PayResponse				{get;set;} 
     public PPResponseEnvelope RespEnvp 				{get;set;}
 
-    
+    public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
     public String ApprovalType 						{get;set;}
     public string MainMessage     					{get;set;} 
     public string SuccessMessage					{get;set;}
@@ -88,7 +89,7 @@ public class ControllerPayApi {
         MainMessage = '';
 		
 		// create request envelope and set the common request parameters
-        PPPayRequest request = new PPPayRequest('REQ-PARAMS1', SenderEmail);        
+        PPPayRequest request = new PPPayRequest(CommonParametersObjName, SenderEmail);        
         // set success and cancel urls
         String host = ApexPages.currentPage().getHeaders().get('Host');
         request.CancelUrl = 'https://' + host + '/PayApiTest?MainMessage=cancel';
@@ -124,7 +125,7 @@ public class ControllerPayApi {
         IsDisplay = false;
        
          // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
        
         try {
         	System.Debug(Logginglevel.INFO, '==>Request' + request);
