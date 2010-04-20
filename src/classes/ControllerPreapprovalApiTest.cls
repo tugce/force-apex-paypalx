@@ -24,6 +24,6 @@ private class ControllerPreapprovalApiTest {
 
     static testMethod void testApply() {
        ControllerPreapprovalApi tmp = new ControllerPreapprovalApi();
-       System.assert(tmp.PreapprovalRequest != null);
+       System.assert(tmp != null);
     }
 }

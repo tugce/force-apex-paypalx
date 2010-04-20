@@ -5,6 +5,8 @@ public class ControllerPreapprovalApi {
     public PPPreapprovalResponse PreapprovalResponse			{get;set;}
     public PPResponseEnvelope RespEnvp 							{get;set;}
 
+	public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
 	public String MainMessage									{get;set;}	
 	public string SuccessMessage								{get;set;}
 	public String EndingDate 									{get;set;}
@@ -15,11 +17,12 @@ public class ControllerPreapprovalApi {
     public Boolean IsErr										{get;set;}
     
     public ControllerPreapprovalApi(){
-    	PreapprovalRequest=new PPPreapprovalRequest('REQ-PARAMS1', ''); 
+    	
     	PreapprovalResponse=new PPPreapprovalResponse();
     }
     
 	public Pagereference apply(){
+		PreapprovalRequest=new PPPreapprovalRequest(CommonParametersObjName, ''); 
 		Pagereference page=null;
        	MainMessage = '';
        	IsErr = false;
@@ -43,7 +46,7 @@ public class ControllerPreapprovalApi {
 		PreapprovalRequest.StartingDate=mystartDate;
 		
 	    // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         try {
 	        System.Debug(Logginglevel.INFO, '==>Request' + PreapprovalRequest);
 			PreapprovalResponse = toolkit.preapproval( PreapprovalRequest );

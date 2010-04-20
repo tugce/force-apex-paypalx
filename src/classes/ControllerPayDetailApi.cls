@@ -5,7 +5,13 @@ public class ControllerPayDetailApi {
     public PPResponseEnvelope RespEnvp 						{get;set;}
 
     public string MainMessage     							{get;set;} 
-  
+    public String payKey									{get;set;}
+    public String transactionId								{get;set;}
+    public String trackingId								{get;set;}
+    
+ 	public String CommonParametersObjName					{get;set;}
+    public String APICredentialObjName						{get;set;}
+    
     public PPPaymentInformation PaymentInfo 				{get;set;}
     public List<PPFundingTypeInfo> FundingTypeInfo			{get;set;}
     
@@ -15,7 +21,7 @@ public class ControllerPayDetailApi {
   	public Boolean IsErr									{get;set;}
     
     public ControllerPayDetailApi(){
-    	PaymentDetailRequest = new PPPaymentDetailsRequest('REQ-PARAMS1');
+    	
         PaymentDetailResponse = new PPPaymentDetailsResponse();
         outParameterList = new List<PaymentDetailInfo>();
         FundingTypeInfo = new List<PPFundingTypeInfo>();        
@@ -26,8 +32,12 @@ public class ControllerPayDetailApi {
         MainMessage = '';
         IsErr = false;
         IsDisplayResponse = false ;
+        PaymentDetailRequest = new PPPaymentDetailsRequest(CommonParametersObjName);
+        PaymentDetailRequest.PayKey = paykey;
+        PaymentDetailRequest.TrackingId = trackingId;
+        PaymentDetailRequest.TransactionId = transactionId;
         // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         try {
         	outParameterList.clear();
 	        System.Debug(Logginglevel.INFO, '==>Request' + PaymentDetailRequest);

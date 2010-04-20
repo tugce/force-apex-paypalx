@@ -2,6 +2,9 @@ public class ControllerCreateAccountApi {
     
     public String MainMessage									{get;set;}
     public string SuccessMessage					{get;set;}
+    public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
+    
     public PPAddress Address 				 					{get;set;}
     public PPBusinessInfo BusinessInfo	 						{get;set;}
     public PPCreateAccountWebOptions CreateAccountWebOptions 	{get;set;}
@@ -17,7 +20,7 @@ public class ControllerCreateAccountApi {
     public Boolean isErr										{get;set;}
      
     public ControllerCreateAccountApi (){
-        CreateAccountRequest = new PPCreateAccountRequest('REQ-PARAMS1');
+       
         CreateAccountResponse = new PPCreateAccountResponse();
         BusinessInfo = new PPBusinessInfo();
         createAccountWebOptions = new PPCreateAccountWebOptions();
@@ -31,8 +34,9 @@ public class ControllerCreateAccountApi {
         isErr = false ;
         Pagereference page = null;
            
+        CreateAccountRequest = new PPCreateAccountRequest(CommonParametersObjName);
         // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         
         CreateAccountRequest.BusinessInfo = BusinessInfo;
         CreateAccountRequest.CreateAccountWebOptions = CreateAccountWebOptions;

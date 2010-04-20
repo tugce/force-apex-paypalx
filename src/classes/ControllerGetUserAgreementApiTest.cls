@@ -24,6 +24,6 @@ private class ControllerGetUserAgreementApiTest {
 
     static testMethod void testApply() {
         ControllerGetUserAgreementApi tmp = new ControllerGetUserAgreementApi();
-        System.assert(tmp.GetUserAgreementRequest != null);
+        System.assert(tmp != null);
     }
 }

@@ -5,13 +5,15 @@ public class ControllerCancelPreapprovalApi {
     public PPCancelPreapprovalRequest CancelPreapprovalRequest		{get;set;}
     public PPCancelPreapprovalResponse CancelPreapprovalResponse	{get;set;}
     public PPResponseEnvelope respEnvp{get;set;}
+    public String CommonParametersObjName			{get;set;}
+    public String APICredentialObjName				{get;set;}
     
     public Boolean isDisplay{get;set;}
     public PPResponseEnvelope ResponseEnvelope{get;set;}
     public Boolean isErr{get;set;}
     
     public ControllerCancelPreapprovalApi(){
-        CancelPreapprovalRequest=new PPCancelPreapprovalRequest('REQ-PARAMS1');
+        
         CancelPreapprovalResponse=new PPCancelPreapprovalResponse();
     }
     
@@ -20,9 +22,10 @@ public class ControllerCancelPreapprovalApi {
         isDisplay = false;  
         isErr = false ;
         Pagereference page = null;
-           
+       
+        CancelPreapprovalRequest=new PPCancelPreapprovalRequest(CommonParametersObjName);
         // create the Adaptive Toolkit object instance w/ API Credentials
-        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit('SandboxCert');
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         
         try {
         	System.Debug(Logginglevel.INFO, '==>Request' + CancelPreapprovalRequest);

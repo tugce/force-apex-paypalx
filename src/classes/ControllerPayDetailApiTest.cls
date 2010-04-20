@@ -24,6 +24,6 @@ private class ControllerPayDetailApiTest {
 
     static testMethod void testPayDetail() {
         ControllerPayDetailApi tmp = new ControllerPayDetailApi();
-        System.assert(tmp.PaymentDetailRequest != null);
+        System.assert(tmp != null);
     }
 }

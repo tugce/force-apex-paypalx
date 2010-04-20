@@ -24,6 +24,6 @@ private class ControllerConvertCurrencyApiTest {
 
     static testMethod void testApply() {
         ControllerConvertCurrencyApi tmp = new ControllerConvertCurrencyApi();
-        System.assert(tmp.ConvertCurrencyRequest != null);
+        System.assert(tmp != null);
     }
 }

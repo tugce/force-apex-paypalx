@@ -24,7 +24,7 @@ private class ControllerCancelPreapprovalApiTest {
 
     static testMethod void testApply() {
         ControllerCancelPreapprovalApi tmp = new ControllerCancelPreapprovalApi();
-        System.assert(tmp.CancelPreapprovalRequest != null);
+        System.assert(tmp != null);
     }
         
 }
