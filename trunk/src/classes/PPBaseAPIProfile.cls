@@ -173,6 +173,8 @@ global class PPBaseAPIProfile {
 		if (0 < Subject.trim().length()) {
 			headers.put(PPStaticRes.PAYPAL_SECURITY_SUBJECT, Subject);
 		}
+		// add the source header so we know where the requests are coming from
+		headers.put(PPStaticRes.PAYPAL_REQUEST_SOURCE, PPStaticRes.PAYPAL_REQUEST_SOURCE_VALUE);
 
 		return headers;
 	}
