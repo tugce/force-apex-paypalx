@@ -145,6 +145,8 @@ public class PPStaticRes {
 	public static final String PAYPAL_DEVICE_ID = 'X-PAYPAL-DEVICE-ID';
 	public static final String PAYPAL_DEVICE_IPADDRESS = 'X-PAYPAL-DEVICE-IPADDRESS';
 	public static final String PAYPAL_SECURITY_SUBJECT = 'X-PAYPAL-SECURITY-SUBJECT';
+	public static final String PAYPAL_REQUEST_SOURCE = 'X-PAYPAL-REQUEST-SOURCE';
+	public static final String PAYPAL_REQUEST_SOURCE_VALUE = 'FORCE_COM-Toolkit';
 	public static final String NVP_FORMAT = 'NV';
 	
 	// Other Strings
