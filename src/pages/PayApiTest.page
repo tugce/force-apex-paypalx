@@ -76,6 +76,18 @@
                             </apex:selectList>
                         </apex:outputpanel>
                     </apex:pageBlockSectionItem>
+                    
+                    <apex:pageblocksectionitem >
+                        <apex:outputText >Action Type: </apex:outputText>
+                        <apex:outputpanel >
+                            <apex:outputText style="background-color:red;color:red;"
+                                value="I" />
+                            <apex:selectList value="{!ActionType}" size="1">
+                                <apex:selectOptions value="{!ActionTypeDropDown}"></apex:selectOptions>
+                            </apex:selectList>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>
+                    
                 </apex:pageblocksection>
                 
                
@@ -145,6 +157,11 @@
                                             <apex:column >
                                                 <apex:facet name="header">Payment Type</apex:facet>
                                                 <apex:inputText value="{!Receiver.PaymentType}"></apex:inputText>
+                                            </apex:column>
+                                            
+                                            <apex:column >
+                                                <apex:facet name="header">PaymentSubType</apex:facet>
+                                                <apex:inputText value="{!Receiver.PaymentSubType}"></apex:inputText>
                                             </apex:column>
                                             <apex:column rendered="{!IF(PaymentType=='Chained',true,false)}">
                                                 <apex:facet name="header">Primary</apex:facet>
