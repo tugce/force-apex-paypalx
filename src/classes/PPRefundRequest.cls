@@ -31,6 +31,21 @@ global class PPRefundRequest extends PPRequest {
 		CurrencyCode = '';
 	}
 	
+	global PPRefundRequest(String CommonRequestParametersObjectName) {
+		ApiName = PPStaticRes.REFUND_API;
+		ReceiverList = new List<PPReceiver> ();
+		PayKey = '';
+		TransactionId = '';
+		TrackingId = '';
+		
+		PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        // set request envelope fields
+        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+         // set currency code - for this example we will use US Dollars
+        CurrencyCode = commonRequestParameters.CurrencyCode;
+        
+	}
+	
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
 		super.setRequestEnvp(language, detailLevelCode);
 	}

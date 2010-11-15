@@ -7,6 +7,13 @@ private class PPReceiverTest {
         receiver.Primary = false;
         receiver.InvoiceId = '1223';
         receiver.PaymentType = 'GOODS';
+        receiver.PaymentSubType = 'PAYROLL';
+        PPPhoneNumber ppPhone = new PPPhoneNumber();
+        ppPhone.countryCode = '91';
+        ppPhone.extension = '4445';
+        ppPhone.phoneNumber = '2537683';
+        receiver.Phone = ppPhone;
+        
         Map<String, String> receiverParams = new Map<String, String>();
         receiver.populateAttributes(receiverParams, '');
         
@@ -16,6 +23,12 @@ private class PPReceiverTest {
         System.assert(receiverParams.get(PPStaticRes.PRIMARY).equals('false'));
         System.assert(receiverParams.get(PPStaticRes.INVOICE_ID).equals('1223'));
         System.assert(receiverParams.get(PPStaticRes.PAYMENT_TYPE).equals('GOODS'));
+        System.assert(receiverParams.get(PPStaticRes.PAYMENT_SUB_TYPE).equals('PAYROLL'));
+        
+        System.assert(receiverParams.get(PPStaticRes.PHONE + PPStaticRes.DOT + PPStaticRes.COUNTRY_CODE).equals('91'));
+        System.assert(receiverParams.get(PPStaticRes.PHONE + PPStaticRes.DOT + PPStaticRes.PHONE_NUMBER).equals('2537683'));
+        System.assert(receiverParams.get(PPStaticRes.PHONE + PPStaticRes.DOT + PPStaticRes.EXTENSION).equals('4445'));
+        
     }
     
     static testMethod void testparseAttributes() {
@@ -26,6 +39,10 @@ private class PPReceiverTest {
         receiverParams.put('receiverList.receiver.primary', 'false');
         receiverParams.put('receiverList.receiver.invoiceId', '32342343');
         receiverParams.put('receiverList.receiver.paymentType', 'SERVICE');
+        receiverParams.put('receiverList.receiver.paymentSubType', 'PAYROLL');
+        receiverParams.put('receiverList.receiver.phone.countryCode', '91');
+        receiverParams.put('receiverList.receiver.phone.extension', '4445');
+        receiverParams.put('receiverList.receiver.phone.phoneNumber', '2537683');
         receiver.parseAttributes(receiverParams, 'receiverList.receiver.');
         
         // Assertion
@@ -34,6 +51,12 @@ private class PPReceiverTest {
         System.assert(receiver.Primary == false);
         System.assert(receiver.InvoiceId.equals('32342343'));
         System.assert(receiver.PaymentType.equals('SERVICE'));
+        System.assert(receiver.PaymentSubType.equals('PAYROLL'));
+        System.assert( Null != receiver.Phone);
+        System.assert(receiver.Phone.countryCode.equals('91'));
+        System.assert(receiver.Phone.extension.equals('4445'));
+        System.assert(receiver.Phone.phoneNumber.equals('2537683'));
+        
     }
     
      static testMethod void testparseAttributesOne() {

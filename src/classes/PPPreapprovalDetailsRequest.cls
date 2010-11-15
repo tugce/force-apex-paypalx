@@ -10,6 +10,13 @@ global class PPPreapprovalDetailsRequest extends PPRequest{
 		PreapprovalKey = '';
 	}
 	
+	global PPPreapprovalDetailsRequest(String CommonRequestParametersObjectName){
+		ApiName = PPStaticRes.PREAPPROVAL_DETAILS_API;
+		PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        // set request envelope fields
+        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+	}
+	
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
 		super.setRequestEnvp(language, detailLevelCode);
 	}

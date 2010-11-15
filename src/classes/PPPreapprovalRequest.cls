@@ -63,36 +63,19 @@ global class PPPreapprovalRequest extends PPRequest {
     
     // Constructor
     global PPPreapprovalRequest() {
-        ApiName = PPStaticRes.PREAPPROVAL_API;
-        CancelUrl = '';
-        CurrencyCode = '';
-        DateOfMonth = 0; 
-        DayOfWeek = '';
-        EndingDate = NULL;
-        MaxAmountPerPayment = 0;
-        MaxNumberOfPayments = 0;
-        MaxNumberOfPaymentsPerPeriod = 0;
-        MaxTotalAmountOfAllPayment = 0;
-        PaymentPeriod = '';
-        SenderEmail = '';
-        ReturnUrl = '';
-        StartingDate = Null;
-        PinType = '';
-        IpnNotificationUrl = '';
-        Memo = '';
-        ClientDetails = new PPClientDetails();
+        init(Null, '');
     }
     
     // Constructor w/ CommonRequestParameters object
     global PPPreapprovalRequest(String CommonRequestParametersObjectName, String SenderEmail) {
-    	
     	PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
-        // set request envelope fields
-        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
-        // create and set client details
+    	init(commonRequestParameters, SenderEmail);
+    }
+    
+    public void init(PPCommonRequestParameters commonRequestParameters, String email) {
+    	
+    	// create and set client details
         ClientDetails = new PPClientDetails();
-        // name of the application
-        ClientDetails.applicationId = commonRequestParameters.ApplicationName;
         // add the remote client IP address
         map<string , string> hdrs = ApexPages.currentPage().getHeaders();
 		if ( hdrs.get('x-original-remote-addr') != null)
@@ -101,12 +84,20 @@ global class PPPreapprovalRequest extends PPRequest {
 			ClientDetails.ipAddress = hdrs.get('X-Salesforce-SIP');
 		else 
         	ClientDetails.ipAddress = '127.0.0.1';        	
-
-        // set sender Email == sender's PayPal Id 
-        SenderEmail = SenderEmail;
-        // set currency code - for this example we will use US Dollars
-        CurrencyCode = commonRequestParameters.CurrencyCode;
         
+        
+    	if(commonRequestParameters != Null) {
+        	// set request envelope fields
+        	setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+	        // name of the application
+    	    ClientDetails.applicationId = commonRequestParameters.ApplicationName;
+        
+	        // set currency code - for this example we will use US Dollars
+        	CurrencyCode = commonRequestParameters.CurrencyCode;
+    	}
+    	
+        // set sender Email == sender's PayPal Id 
+        SenderEmail = email;
     	// defaults for everything else
         ApiName = PPStaticRes.PREAPPROVAL_API;
         CancelUrl = '';

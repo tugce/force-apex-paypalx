@@ -17,9 +17,14 @@ public class PPStaticRes {
 	public static final String TRACKING_ID = 'trackingId';
 	public static final String PAY_API = 'Pay';
 	public static final String PAY_ACTION = 'PAY';
+	public static final String PAY_PRIMARY_ACTION = 'PAY_PRIMARY';
 	public static final String FUNDING_TYPE = 'fundingType';
 	public static final String FUNDING_TYPE_LIST = 'fundingtypeList';
 	public static final String FUNDING_TYPE_INFO = 'fundingTypeInfo';
+	
+	// ExecutePayment Request Fields
+	public static final String EXECUTE_PAYMENT_API = 'ExecutePayment';
+	
 	
 	// PreApproval and PreapprovalDetails Fields
 	public static final String DATE_OF_MONTH = 'dateOfMonth';
@@ -109,6 +114,13 @@ public class PPStaticRes {
 	public static final String PRIMARY = 'primary';
 	public static final String INVOICE_ID = 'invoiceId';
 	public static final String PAYMENT_TYPE = 'paymentType';
+	public static final String PAYMENT_SUB_TYPE = 'paymentSubType';
+	public static final String PHONE = 'phone';
+	
+	// PPPhoneNumber Fields
+	public static final String COUNTRY_CODE = 'countryCode';
+	public static final String EXTENSION = 'extension';
+	public static final String PHONE_NUMBER = 'phoneNumber';
 	
 	// PPRequestEnvelope Fields
 	public static final String REQUEST_ENVELOPE = 'requestEnvelope';
@@ -203,7 +215,6 @@ public class PPStaticRes {
 	public static final String REDIRECT_URL = 'redirectURL';
 	
 	public static final String GET_USER_AGREEMENT_API = 'GetUserAgreement';
-	public static final String COUNTRY_CODE = 'countryCode';
 	public static final String LANGUAGE_CODE = 'languageCode'; 
 
 	public static final String AGREEMENT = 'agreement'; 

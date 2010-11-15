@@ -9,6 +9,13 @@ global class PPCancelPreapprovalRequest extends PPRequest {
 		PreapprovalKey = '';
 	}
 	
+	global PPCancelPreapprovalRequest(String CommonRequestParametersObjectName){
+		ApiName = PPStaticRes.CANCEL_PREAPPROVAL_API;
+		PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        // set request envelope fields
+        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+	}
+	
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
 		super.setRequestEnvp(language, detailLevelCode);
 	}

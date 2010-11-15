@@ -84,6 +84,49 @@ global class PPCreateAccountRequest extends PPRequest {
 		PreferredLanguageCode = '';
 		RegistrationType = ''; 
 	} 
+	
+	// Constructor
+	global PPCreateAccountRequest(String CommonRequestParametersObjectName){
+
+		
+		PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        // set request envelope fields
+        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+		CurrencyCode = commonRequestParameters.CurrencyCode;
+        // create and set client details
+        ClientDetails = new PPClientDetails();
+        // add the remote client IP address
+        map<string , string> hdrs = ApexPages.currentPage().getHeaders();
+		if ( hdrs.get('x-original-remote-addr') != null)
+			ClientDetails.ipAddress = hdrs.get('x-original-remote-addr');
+		else if ( hdrs.get('X-Salesforce-SIP') != null)
+			ClientDetails.ipAddress = hdrs.get('X-Salesforce-SIP');
+		else 
+        	ClientDetails.ipAddress = '127.0.0.1';  
+        	
+        // name of the application
+		ClientDetails.applicationId = commonRequestParameters.ApplicationName;
+    	    
+		ApiName = PPStaticRes.CREATE_ACCOUNT_API;
+		AccountType = '';
+		SandboxEmailAddress = '';
+		Address = new PPAddress(); 
+		BusinessInfo = new PPBusinessInfo();
+		CitizenshipCountryCode = '';
+		ContactPhoneNumber = '';
+		CreateAccountWebOptions = new PPCreateAccountWebOptions();
+		DateOfBirth = Null;
+		EmailAddress = '';
+		NameInfo = new PPName();
+		NotificationURL = '';
+		PartnerField1 = '';
+		PartnerField2 = '';
+		PartnerField3 = '';
+		PartnerField4 = '';
+		PartnerField5 = '';
+		PreferredLanguageCode = '';
+		RegistrationType = ''; 
+	} 
 
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
 		super.setRequestEnvp(language, detailLevelCode);

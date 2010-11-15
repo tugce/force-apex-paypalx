@@ -698,4 +698,50 @@ private class PPPayTest {
     	toolkit.BaseAPIProfile = baseProfile;
         PPPayResponse response = toolkit.Pay(request);
     }
+    
+    static testMethod void chainedPaymentExplicitApprovalReceiverPaysFeesDelayedPayment() {
+        PPPayRequest request = new PPPayRequest();
+        request.setRequestEnvelopeParams('en_US', 'ReturnAll');
+        PPClientDetails clientDetails = new PPClientDetails();
+        clientDetails.applicationId = 'myapp';
+        clientDetails.ipAddress = '172.16.4.89';
+        request.clientDetails = clientDetails;
+        request.ActionType = 'PAY_PRIMARY';
+        request.cancelUrl = 'https://c.na7.visual.force.com/apex/CancelURL';
+        request.returnUrl = 'https://c.na7.visual.force.com/apex/ReturnURL';
+        request.IpnNotificationUrl = 'http://google.com';
+        
+        request.currencyCode = 'USD';
+        request.feesPayer = 'EACHRECEIVER';
+        request.memo = 'test app';
+        
+        List<PPReceiver> receiverList = new List<PPReceiver>();
+        PPReceiver primaryReceiver = new PPReceiver();
+        primaryReceiver.email = 'seller_1251967875_biz@persistent.co.in';
+        primaryReceiver.amount = 10.00;
+        primaryReceiver.Primary = true;
+        PPReceiver receiver1 = new PPReceiver();
+        receiver1.email = 'manish_1250055563_biz@persistent.co.in';
+        receiver1.amount = 10.00;
+        PPReceiver receiver2 = new PPReceiver();
+        receiver2.email = 'sonali_1251967680_biz@persistent.co.in';
+        receiver2.amount = 10.00;
+        receiverList.Add(receiver2);
+        receiverList.Add(receiver1);
+        receiverList.Add(primaryReceiver);
+        
+        request.receiverList = receiverList;
+        request.LogDefaultShippingAddress = false;
+        request.ReverseAllParallelPaymentsOnError = false;
+        PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit();
+        PPBaseAPIProfile baseProfile = new PPBaseAPIProfile();
+		baseProfile.APIUsername = 'S11_1251093592_biz_api1.persistent.co.in';		
+		baseProfile.APIPassword = '1251093602';		
+    	baseProfile.APIProfile = PPBaseAPIProfile.APIProfileType.PROFILE_TYPE_THREE_TOKEN;
+		baseProfile.APISignature = 'AjOZLBchs9bvmNntdTAwK-YNomcsAPlrb3SUw.cISjP8I7bfev9VZDND';		
+    	baseProfile.Environment = PPBaseAPIProfile.EnvironmentType.ENVIRONMENT_TYPE_SANDBOX;
+    	baseProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	toolkit.BaseAPIProfile = baseProfile;
+        PPPayResponse response = toolkit.Pay(request);        
+    }
 }
