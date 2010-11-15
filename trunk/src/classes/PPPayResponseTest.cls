@@ -21,6 +21,48 @@ private class PPPayResponseTest {
     	System.assert(payResponse.PaymentExecStatus.equals('CREATED'));
 	}
 	
+	static testMethod void testParseResponseParametersTwo() {	
+    	PPPayResponse payResponse = new PPPayResponse();
+    	Map<String, String> testMap = new Map<String, String>();
+    	testMap.put('responseEnvelope.timestamp', '2009-07-13T12%3A34%3A29.316-07%3A00');
+    	testMap.put('responseEnvelope.ack', 'success');
+    	testMap.put('responseEnvelope.correlationId','d615a365bed61');
+    	testMap.put('responseEnvelope.build', 'DEV');
+    	testMap.put('payKey', 'AP-3TY011106S4428730');
+    	testMap.put('paymentExecStatus', 'INCOMPLETE');
+    	payResponse.parseResponseParameters(testMap);
+    	payResponse.getErrorList();
+    	
+    	// Assertion
+    	System.assert(payResponse.getResponseEnvelope().StringTimeStamp.equals('2009-07-13T12%3A34%3A29.316-07%3A00'));
+    	System.assert(payResponse.getResponseEnvelope().Ack.equals('success'));
+    	System.assert(payResponse.getResponseEnvelope().CorrelationId.equals('d615a365bed61'));
+    	System.assert(payResponse.getResponseEnvelope().build.equals('DEV'));
+    	System.assert(payResponse.PayKey.equals('AP-3TY011106S4428730'));
+    	System.assert(payResponse.PaymentExecStatus.equals('INCOMPLETE'));
+	}
+	
+	static testMethod void testParseResponseParametersThree() {	
+    	PPPayResponse payResponse = new PPPayResponse();
+    	Map<String, String> testMap = new Map<String, String>();
+    	testMap.put('responseEnvelope.timestamp', '2009-07-13T12%3A34%3A29.316-07%3A00');
+    	testMap.put('responseEnvelope.ack', 'success');
+    	testMap.put('responseEnvelope.correlationId','d615a365bed61');
+    	testMap.put('responseEnvelope.build', 'DEV');
+    	testMap.put('payKey', 'AP-3TY011106S4428730');
+    	testMap.put('paymentExecStatus', 'COMPLETE');
+    	payResponse.parseResponseParameters(testMap);
+    	payResponse.getErrorList();
+    	
+    	// Assertion
+    	System.assert(payResponse.getResponseEnvelope().StringTimeStamp.equals('2009-07-13T12%3A34%3A29.316-07%3A00'));
+    	System.assert(payResponse.getResponseEnvelope().Ack.equals('success'));
+    	System.assert(payResponse.getResponseEnvelope().CorrelationId.equals('d615a365bed61'));
+    	System.assert(payResponse.getResponseEnvelope().build.equals('DEV'));
+    	System.assert(payResponse.PayKey.equals('AP-3TY011106S4428730'));
+    	System.assert(payResponse.PaymentExecStatus.equals('COMPLETE'));
+	}
+	
 	static testMethod void populateErrorPPPayResponse() {	
     	PPPayResponse payResponse = new PPPayResponse();
     	Map<String, String> testMap = new Map<String, String>();

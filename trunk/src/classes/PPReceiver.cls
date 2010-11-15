@@ -14,8 +14,15 @@ global class PPReceiver {
 	// the Pay API operation. it is ignored in all other Adaptive Payment APIs.
     global String InvoiceId {get; set;}
     
-    // (Optional) The transaction subtype for the payment.
+    // (Optional) The payment type for the payment.
 	global String PaymentType {get; set;} 
+	
+	// (Optional) The payment subtype for the payment.
+	global String PaymentSubType {get; set;} 
+	
+	// (Optional) Receiver's phone number - either email or phone must be set
+	global PPPhoneNumber Phone {get; set;} 
+	
     
     // Constructor
     global PPReceiver() {
@@ -24,6 +31,7 @@ global class PPReceiver {
         Primary = Null;
         InvoiceId = '';
         PaymentType = '';
+        Phone = Null;
     }
     
     public void populateAttributes(Map<String, String> receiverParams, String receiverTag) {
@@ -46,6 +54,11 @@ global class PPReceiver {
 			
 			if (Null != PaymentType && 0 != PaymentType.length())
 				receiverParams.put(receiverTag + PPStaticRes.PAYMENT_TYPE, PaymentType);
+			if (Null != PaymentSubType && 0 != PaymentSubType.length())
+				receiverParams.put(receiverTag + PPStaticRes.PAYMENT_SUB_TYPE, PaymentSubType);
+			if (Null != Phone) {
+			 	Phone.populateAttributes(receiverParams, receiverTag);
+			}
     	}
     }
     
@@ -78,5 +91,21 @@ global class PPReceiver {
         tag = prefixTag + PPStaticRes.PAYMENT_TYPE;
         if (receiverParams.containsKey(tag))
         PaymentType = receiverParams.remove(tag);
+        
+        tag = prefixTag + PPStaticRes.PAYMENT_SUB_TYPE;
+        if (receiverParams.containsKey(tag))
+        PaymentSubType = receiverParams.remove(tag);
+        
+        tag = prefixTag + PPStaticRes.PHONE + PPStaticRes.DOT + PPStaticRes.PHONE_NUMBER;
+        if (receiverParams.containsKey(tag)) {
+        	Phone = new PPPhoneNumber();
+           	Phone.phoneNumber = receiverParams.remove(tag);
+           	tag = prefixTag + PPStaticRes.PHONE + PPStaticRes.DOT + PPStaticRes.COUNTRY_CODE;
+           	if (receiverParams.containsKey(tag)) 
+           		Phone.countryCode = receiverParams.remove(tag);
+           	tag = prefixTag + PPStaticRes.PHONE + PPStaticRes.DOT + PPStaticRes.EXTENSION;
+           	if (receiverParams.containsKey(tag)) 
+           		Phone.extension = receiverParams.remove(tag);
+        }
     }
 }

@@ -20,6 +20,17 @@ global class PPPaymentDetailsRequest extends PPRequest {
 		TrackingId = '';
 	}
 	
+	global PPPaymentDetailsRequest(String CommonRequestParametersObjectName){
+		ApiName = PPStaticRes.PAYMENT_DETAILS_API;
+		PayKey = '';
+		TransactionId = '';
+		TrackingId = '';
+		PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        // set request envelope fields
+        setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
+	}
+	
+	
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
 		super.setRequestEnvp(language, detailLevelCode);
 	}

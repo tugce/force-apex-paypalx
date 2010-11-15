@@ -28,6 +28,17 @@ global class PPAdaptiveToolkit {
         return response;
     }
     
+    // The executePayment method lets you execute a payment setup with the Pay method with the actionType 
+    // CREATE or PAY_PRIMARY (delayed payments)
+    global PPExecutePaymentResponse executePayment(PPExecutePaymentRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
+        PPExecutePaymentResponse response = new PPExecutePaymentResponse();
+        executeCommand(request, response);
+        return response;
+    }
+    
 	// commitPayment API provides facility to logon and approve a payment.
     global PageReference commitPayment(String payKey) {
         PageReference payPalPage = new PageReference(BaseAPIProfile.getPayPalLoginPage() +  PAYMENT_COMMAND_STRING + payKey);

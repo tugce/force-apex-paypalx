@@ -17,6 +17,7 @@ public class PPCommonRequestParameters {
     		throw new PPCommonRequestParametersException('Error when query PPCommonRequestParameters object - did not find any PPCommonRequestParameters with name of ['+name+']');
     	}
     }
+   
     
     static testmethod void testInstance() {
 		try{
