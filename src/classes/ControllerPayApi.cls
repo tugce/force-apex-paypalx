@@ -26,12 +26,21 @@ public class ControllerPayApi {
         
         STATICSTRINGS = new STATICSTRINGS();
         PaymentType=STATICSTRINGS.SIMPLE_PAYMENT;
+        ActionType=STATICSTRINGS.ActionType_PAY;
         ApprovalType = 'Explicit Approval';
         FundingTypeEcheck = false;
         FundingTypeBalance = false;
         FundingTypeCreditCard = false;
     }
    
+   public String ActionType {get;set;}
+   public List<SelectOption> getActionTypeDropDown(){
+        List<selectoption> options = new List<selectoption>();
+        options.add(new Selectoption(STATICSTRINGS.ActionType_PAY,STATICSTRINGS.ActionType_PAY));
+        options.add(new Selectoption(STATICSTRINGS.ActionType_PAY_PRIMARY,STATICSTRINGS.ActionType_PAY_PRIMARY));
+        options.add(new Selectoption(STATICSTRINGS.ActionType_PAY_CREATE,STATICSTRINGS.ActionType_PAY_CREATE));
+        return options;
+    }
     public String PaymentType{get;set;}
     public List<SelectOption> getPaymentTypeDropDown(){
         List<selectoption> options = new List<selectoption>();
@@ -82,6 +91,10 @@ public class ControllerPayApi {
         public string PRIMARYRECEIVER   = 'PRIMARYRECEIVER';
         public string SENDER            = 'SENDER';
         public string SECONDARYONLY     = 'SECONDARYONLY';
+        
+        public string ActionType_PAY = 'PAY';
+        public string ActionType_PAY_PRIMARY = 'PAY_PRIMARY';
+        public string ActionType_PAY_CREATE = 'CREATE';
     }
   
     public pagereference Pay(){
@@ -89,7 +102,9 @@ public class ControllerPayApi {
         MainMessage = '';
 		
 		// create request envelope and set the common request parameters
-        PPPayRequest request = new PPPayRequest(CommonParametersObjName, SenderEmail);        
+        PPPayRequest request = new PPPayRequest(CommonParametersObjName, SenderEmail);      
+        // set actionType
+        request.ActionType = ActionType;  
         // set success and cancel urls
         String host = ApexPages.currentPage().getHeaders().get('Host');
         request.CancelUrl = 'https://' + host + '/PayApiTest?MainMessage=cancel';
