@@ -6,4 +6,12 @@
     <tab>PPAPICredential__c</tab>
     <tab>About_PayPal_Adaptive_Toolkit</tab>
     <tab>PPCommonRequestParameters__c</tab>
+    <tab>CancelPreapprovalTest</tab>
+    <tab>ConvertCurrencyTest</tab>
+    <tab>ExecutePaymentTest</tab>
+    <tab>PayDetailTest</tab>
+    <tab>PreapprovalApiTest</tab>
+    <tab>PreapprovalDetailTest</tab>
+    <tab>RefundApiTest</tab>
+    <tab>SetPaymentOptionsTest</tab>
 </CustomApplication>
