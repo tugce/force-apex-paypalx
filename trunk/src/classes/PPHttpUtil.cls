@@ -8,6 +8,7 @@ public class PPHttpUtil {
     	Map<String, String> headers, String body) {
         m_httpRequest.setEndpoint(endPoint);
         setHeaders(headers);
+        
         m_httpRequest.setMethod(method);
         m_httpRequest.setBody(body);
         m_httpRequest.setTimeout(60000);
@@ -18,6 +19,7 @@ public class PPHttpUtil {
     }
 
     public HttpResponse execute() {
+    	    	
         HttpResponse response = null;
         if (canCallout) {   
 	        response = new Http().send(m_httpRequest);
@@ -34,6 +36,9 @@ public class PPHttpUtil {
 		    	PPAdaptiveErrors.ERROR_STRING_GOVERNOR_LIMITE_WEB_CALLOUT);
     	    throw ex;
         }
+        
+        System.debug('***Raw Response=' + response);
+        
         return response;
     }
     

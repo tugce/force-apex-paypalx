@@ -151,11 +151,12 @@ global class PPAdaptiveToolkit {
     }
     
     private void executeCommand(PPRequest request, PPResponse response) {
+    	
         if (Null != request) {
 			verifyBaseApiProfile();
-			Map<String, String>requestParams = new Map<String, String>();
+			Map<String, String>requestParams = new Map<String, String>();			
 			request.getRequestParams(requestParams);
-			
+
 			 // !!! Once SandboxEmailAddress field is moved to request headers this code 
 			 // should moved into the BaseAPIProfile.getRequestHeaders() and SandboxEmailAddress 
 			 // field should moved into BaseAPIProfile class
@@ -165,7 +166,21 @@ global class PPAdaptiveToolkit {
 	       			requestParams.remove(PPStaticRes.SANDBOX_EMAIL_ADDRESS);
 	       	}
 	       	
+	       	//Newly added code
+	       	if (PPBaseAPIProfile.EnvironmentType.ENVIRONMENT_TYPE_SANDBOX == BaseAPIProfile.Environment && 
+	       	PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT == BaseAPIProfile.AdaptiveService) {
+	       		if (requestParams.containsKey(PPStaticRes.SANDBOX_EMAIL_ADDRESS)){
+	       			String sandboxEmail = requestParams.get(PPStaticRes.SANDBOX_EMAIL_ADDRESS);	       			
+	       			BaseAPIProfile.SandboxEmailAddress = sandboxEmail;
+	       			System.debug('*****Change After get Setting Sandbox Email Adress = ' + sandboxEmail)	;	
+	       		}		
+	       	}
+
+	       		       	
 	        String requestBody = PPNvpCodec.encode(requestParams);
+	        
+	        System.debug('***request body=' + requestBody);
+	        
 
 	        PPHttpUtil httpUtil = new PPHttpUtil();
 	        httpUtil.createHttpRequest(BaseAPIProfile.getEndPoint() + request.ApiName, 'POST', BaseAPIProfile.getRequestHeaders(), requestBody);
@@ -175,8 +190,15 @@ global class PPAdaptiveToolkit {
 	        }
 	        
 	        HttpResponse httpResponse = httpUtil.execute();
-			response.parseResponseParameters(PPNvpCodec.decode(httpResponse.getBody()));
 	        
+	        System.debug('*****HttpResponse =' + httpResponse);
+	        
+	        System.debug('*****HttpResponse Body =' + httpResponse.getBody());
+	        	        
+			response.parseResponseParameters(PPNvpCodec.decode(httpResponse.getBody()));
+			
+			 System.debug('*****Parsed Response =' + response);
+				        
 	        if ((true == response.ResponseEnvelope.Ack.equalsIgnoreCase(FAILURE)) || 
 	        	 (true == response.ResponseEnvelope.Ack.equalsIgnoreCase(FAILURE_WITH_WARNING))) {
 		    	PPFaultMessageException ex = new PPFaultMessageException();
@@ -214,4 +236,81 @@ global class PPAdaptiveToolkit {
     private static final String FAILURE_WITH_WARNING = 'FailureWithWarning';
     private static final String PAYMENT_COMMAND_STRING = '_ap-payment&paykey=';
     private static final String PREAPPROVAL_COMMAND_STRING = '_ap-preapproval&preapprovalkey=';
+    
+    
+ 
+    global PPSetPaymentOptionsResponse setPaymentOptions(PPSetPaymentOptionsRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
+        PPSetPaymentOptionsResponse response = new PPSetPaymentOptionsResponse();
+        executeCommand(request, response);
+        
+        return response;
+    }
+
+    global PPGetPaymentOptionsResponse getPaymentOptions(PPGetPaymentOptionsRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
+        PPGetPaymentOptionsResponse response = new PPGetPaymentOptionsResponse();
+        executeCommand(request, response);
+        return response;
+    }
+
+    global PPGetFundingPlansResponse getFundingPlans(PPGetFundingPlansRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
+        PPGetFundingPlansResponse response = new PPGetFundingPlansResponse();
+        executeCommand(request, response);
+        return response;
+    }
+    
+    global PPGetShippingAddressesResponse getShippingAddresses(PPGetShippingAddressesRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	// send the request
+        PPGetShippingAddressesResponse response = new PPGetShippingAddressesResponse();
+        executeCommand(request, response);
+        return response;
+    }    
+    
+    global PPAddBankAccountResponse addBankAccount(PPAddBankAccountRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT;
+    	// send the request
+        PPAddBankAccountResponse response = new PPAddBankAccountResponse();
+        executeCommand(request, response);
+        return response;
+    }
+    
+    global PPAddPaymentCardResponse addPaymentCard(PPAddPaymentCardRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT;
+    	// send the request
+        PPAddPaymentCardResponse response = new PPAddPaymentCardResponse();
+        executeCommand(request, response);
+        return response;
+    } 
+    
+    global PPGetVerifiedStatusResponse getVerifiedStatus(PPGetVerifiedStatusRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT;
+    	// send the request
+        PPGetVerifiedStatusResponse response = new PPGetVerifiedStatusResponse();
+        executeCommand(request, response);
+        return response;
+    } 
+              
+    global PPSetFundingSourceConfirmedResponse setFundingSourceConfirmed(PPSetFundingSourceConfirmedRequest request) {
+    	// set the Service Type
+    	BaseAPIProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_ACCOUNT;
+    	// send the request
+        PPSetFundingSourceConfirmedResponse response = new PPSetFundingSourceConfirmedResponse();
+        executeCommand(request, response);
+        return response;
+    } 
+    
+    
 }

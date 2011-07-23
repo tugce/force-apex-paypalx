@@ -13,6 +13,8 @@ public class ControllerExecutePaymentApi {
 	public string SuccessMessage					{get;set;}
     public Boolean IsDisplay 						{get;set;}
   	public Boolean IsErr									{get;set;}
+  	
+  	public String fundingPlanId							{get;set;}
     
     public ControllerExecutePaymentApi(){
     	
@@ -26,6 +28,11 @@ public class ControllerExecutePaymentApi {
         IsDisplay = false;
         ExecutePaymentRequest = new PPExecutePaymentRequest(CommonParametersObjName);
         ExecutePaymentRequest.PayKey = paykey;
+        
+        if(fundingPlanId != null && fundingPlanId.length() > 0){
+        	ExecutePaymentRequest.FundingPlanId = fundingPlanId;
+        }
+                
         // create the Adaptive Toolkit object instance w/ API Credentials
         PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit(APICredentialObjName);
         try {

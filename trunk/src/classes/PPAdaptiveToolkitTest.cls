@@ -1,5 +1,39 @@
 @isTest 
 private class PPAdaptiveToolkitTest {
+	
+	static testMethod void testSetPaymentOptions(){
+		
+		 PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit();
+		 PPBaseAPIProfile baseProfile = new PPBaseAPIProfile();
+		 baseProfile.APIUsername = 'devz_1299018449_biz_api1.yahoo.com';		
+		 baseProfile.APIPassword = '1299018457';		
+    	 baseProfile.APIProfile = PPBaseAPIProfile.APIProfileType.PROFILE_TYPE_THREE_TOKEN;
+		 baseProfile.APISignature = 'AOjg8whuGwKAwWAjygkG3niq1Jr8Akkrd0NjQLbIz4ThW6DRnU.KjGcl';		
+    	 baseProfile.Environment = PPBaseAPIProfile.EnvironmentType.ENVIRONMENT_TYPE_SANDBOX;
+    	 baseProfile.AdaptiveService = PPBaseAPIProfile.ServiceType.SERVICE_TYPE_PAYMENTS;
+    	 baseProfile.ApplicationID = 'APP-80W284485P519543T';
+    	 baseProfile.DeviceID = 'DeviceID';
+    	 baseProfile.DeviceIPAddress = '172.16.4.89';
+    	 baseProfile.ServiceVersion = '1.3.0';
+    	 baseProfile.Subject = 'PayPal Toolkit';
+		 toolkit.BaseAPIProfile = baseProfile;
+		 
+		 PPSetPaymentOptionsRequest req = new PPSetPaymentOptionsRequest();
+		 
+		 req.BusinessName = 'Business 1';
+		 req.CountryCode = 'US';
+		 req.HeaderImageUrl = 'http://localhost/img1.png';
+		 req.PayKey = 'AP-9UC72298MR316490C';
+		 req.FirstName = 'Test';
+		 req.LastName = 'User';
+		 req.InstitutionCustomerId = '9999999';
+		 req.setRequestEnvelopeParams('en_US', 'ReturnAll');
+		 
+		 PPSetPaymentOptionsResponse resp = toolkit.setPaymentOptions(req);
+		  		
+	}
+	
+	
     static testMethod void testPay() {
         PPAdaptiveToolkit toolkit = new PPAdaptiveToolkit();
         
