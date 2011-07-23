@@ -1,21 +1,25 @@
-<apex:page sidebar="false" controller="ControllerExecutePaymentApi">
+<apex:page sidebar="false" controller="ControllerGetVerifiedStatusApi" >
+
     <table align="center" ><tr>
         <td style="font-size:18px"> 
             <table><tr><td style="color:darkblue;">
-                Execute Payment TEST 
+                 GET VERIFIED API TEST  
             </td></tr></table>
         </td>
     </tr></table>
     
+    
     <apex:form >
         <apex:outputpanel style="width:300px;height:400px;" >
+
             <div style="text-align:center;border-top:medium;border-top-color:black"> 
                 <apex:outputtext id="ErrMessageID" escape="false" value="{!MainMessage}" style="background-color:yellow;color:red;font-weight:18px;font-size:14px;text-align:center;"/>
             </div>
             
-            <apex:pageblock title="Transaction">
-                <apex:pageBlockButtons >
-                    <apex:commandButton action="{!ExecutePayment}" value="ExecutePayment" rerender="ErrMessageID,SuccMessageID,display" status="status"/>
+            <apex:pageblock title="Transaction"> 
+                      
+                 <apex:pageBlockButtons >
+                    <apex:commandButton action="{!apply}" value="Apply" rerender="ErrMessageID,display,responerr" status="status"/>
                     <apex:actionstatus id="status" >
                         <apex:facet name="start" > <apex:outputtext style="color:blue" value=" Loading..."/></apex:facet>
                         <apex:facet name="stop" > <apex:outputtext style="color:blue" value=" "/></apex:facet>
@@ -23,8 +27,7 @@
                 </apex:pageBlockButtons>
                 
                 <apex:pageblocksection title="Common Request Parameters"  columns="2"  id="CommonPrmsId">
-                  <apex:pageblocksectionitem >
-   
+                  <apex:pageblocksectionitem >   
                   		<apex:OUTPUTTEXT style="background-color:red;color:red;">Common Parameters Object Name</apex:OUTPUTTEXT>
                   		<apex:outputPanel >
                           <apex:outputText style="background-color:red;color:red;" value="I"/>
@@ -33,36 +36,51 @@
                   </apex:pageblocksectionitem>
 
                     <apex:pageblocksectionitem >
-
                         <apex:OUTPUTTEXT style="background-color:red;color:red;">API Credential Object Name:</apex:OUTPUTTEXT>
                         <apex:outputPanel >
                           <apex:outputText style="background-color:red;color:red;" value="I"/>
                         <apex:inputtext value="{!APICredentialObjName}"/>
                         </apex:outputPanel>
                     </apex:pageblocksectionitem>
-                        
-                </apex:pageblocksection>  
+
+                    <apex:pageblocksectionitem >
+                        <apex:outputText >Sandbox Email Address:</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!SandboxEmailAddress}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>
+                                            
+                </apex:pageblocksection>   
                 
-                <!-- SECTION -->  
-                <apex:pageblocksection title="Sender Information" columns="4"  id="SenderInfoId">
+				<apex:pageblockSection title="Get Verified Status Request" columns="1" >
+								
+                   <apex:pageblocksectionitem >
+                        <apex:outputText >EmailAddress: </apex:outputText>
+                        <apex:outputPanel >
+                            <apex:outputText style="background-color:red;color:red;" value="I"/>
+                            <apex:inputtext value="{!EmailAddress}" />
+                        </apex:outputPanel>
+                   </apex:pageblocksectionitem>				
+
                     <apex:pageblocksectionitem >
-                        <apex:outputText >PayKey: </apex:outputText>
+                        <apex:outputText >FirstName :</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!FirstName}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>								
+
+
+                    <apex:pageblocksectionitem >
+                        <apex:outputText >LastName: </apex:outputText>
                          <apex:outputpanel >
-                            <apex:inputtext value="{!payKey}"></apex:inputtext>
+                            <apex:inputtext value="{!LastName}"></apex:inputtext>
                          </apex:outputpanel>
                      </apex:pageblocksectionitem>
+				
+				</apex:pageblockSection>
+                
  
-                    <apex:pageblocksectionitem >
-                        <apex:outputText >FundingPlanId: </apex:outputText>
-                         <apex:outputpanel >
-                            <apex:inputtext value="{!fundingPlanId}"></apex:inputtext>
-                         </apex:outputpanel>
-                     </apex:pageblocksectionitem>
-                     
-                </apex:pageblocksection>
-       
-        <!--SECTION -->     
-        		<apex:pageBlockSection title="Response">
+                <apex:pageBlockSection title="Response">
                 	<apex:outputPanel id="display">
                         <apex:outputPanel rendered="{!isDisplay}">
                             <h2>Ack:</h2>
@@ -73,36 +91,18 @@
                             <apex:outputText value="{!respEnvp.CorrelationId}"/><br/>
                             <h2>Timestamp:</h2>
                             <apex:outputText value="{!respEnvp.StringTimestamp}"/><br/>
+                            
+                            <h2>Account Status:</h2>
+                            <apex:outputText value="{!AccountStatus}"/><br/>
+                                                        
                         </apex:outputPanel>
                     </apex:outputPanel>
-                    <div style="text-align:center;border-top:medium;border-top-color:black"> 
-		                <apex:outputtext id="SuccMessageID" escape="false" value="{!SuccessMessage}" style="color:green;font-weight:18px;font-size:14px;text-align:center;"/>
-		            </div>
-                </apex:pageBlockSection>
-                
-     <!--Section-->           
-                   
-     <!--Section-->        
-                <apex:pageBlockSection title="Response Envelope on Error">
-                   <apex:outputPanel id="responerr">
-                       <apex:outputPanel rendered="{!isErr}">
-                           <h2>Ack:</h2>
-                       <apex:outputText value="{!respEnvp.Ack}"></apex:outputText><br/>
-                       
-                        <h2>Correlation Id:</h2>
-                       <apex:outputText value="{!respEnvp.CorrelationId}"></apex:outputText><br/>
-                       
-                       <h2>Build:</h2>
-                       <apex:outputText value="{!respEnvp.Build}"></apex:outputText><br/>
-                     
-                       <h2>Timestamp:</h2>
-                       <apex:outputText value="{!respEnvp.StringTimestamp}"></apex:outputText><br/>
-                    </apex:outputPanel>
-                   </apex:outputPanel>
-               </apex:pageBlockSection>       
-                 
-                
-            </apex:pageblock>
+               </apex:pageBlockSection>      
+             
+            </apex:pageblock>            
+        	
         </apex:outputpanel>
     </apex:form>
+
+
 </apex:page>

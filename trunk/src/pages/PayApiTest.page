@@ -1,4 +1,16 @@
 <apex:page sidebar="false" controller="ControllerPayApi">
+
+<script src ="https://www.paypalobjects.com/js/external/dg.js" type="text/javascript"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+    function payWithPayPal(var url){
+    	var dgFlow = new PAYPAL.apps.DGFlow();
+    	dgFlow.startFlow(url);
+    }	
+              
+</script> 
+
     <table align="center" ><tr>
         <td style="font-size:18px"> 
             <table><tr><td style="color:darkblue;">
@@ -6,7 +18,7 @@
             </td></tr></table>
         </td>
     </tr></table>
-    
+       
     <apex:form >
         <apex:outputpanel style="width:300px;height:400px;" >
             <div style="text-align:center;border-top:medium;border-top-color:black"> 
@@ -41,6 +53,17 @@
                         <apex:inputtext value="{!APICredentialObjName}"/>
                         </apex:outputPanel>
                     </apex:pageblocksectionitem>
+                    
+                    <apex:pageblocksectionitem >
+                        <apex:outputText >Experience Type: </apex:outputText>
+                        <apex:outputpanel >
+                            <apex:outputText style="background-color:red;color:red;"
+                                value="I" />
+                            <apex:selectList value="{!ExperienceType}" size="1">
+                                <apex:selectOptions value="{!ExperienceTypeDropDown}"></apex:selectOptions>
+                            </apex:selectList>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>                    
                         
                 </apex:pageblocksection>  
                 
@@ -187,6 +210,45 @@
                     </apex:pageblocksectionItem>
                 </apex:pageblocksection>
                 
+                <apex:pageblocksection title="Sender Identifier"   id="SenderIdentifierId">
+                    <apex:pageblocksectionitem >
+                           <apex:outputText >Sender.Email</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!PayRequest.Sender.Email}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>
+                  
+                    <apex:pageblocksectionitem >
+                           <apex:outputText >Sender.UseCredentials</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!PayRequest.Sender.UseCredentials}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>
+                    
+                    <apex:pageblocksectionitem >
+                           <apex:outputText >Sender.Phone.countryCode</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!PayRequest.Sender.Phone.countryCode}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>
+ 
+                     <apex:pageblocksectionitem >
+                           <apex:outputText >Sender.Phone.phoneNumber</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!PayRequest.Sender.Phone.phoneNumber}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>                   
+
+                     <apex:pageblocksectionitem >
+                           <apex:outputText >Sender.Phone.extension</apex:outputText>
+                        <apex:outputpanel >
+                            <apex:inputtext value="{!PayRequest.Sender.Phone.extension}"></apex:inputtext>
+                        </apex:outputpanel>
+                    </apex:pageblocksectionitem>
+                    
+                </apex:pageblocksection>
+                
+                
         <!-- Section response -->        
                 <apex:pageBlockSection title="Response">
                 	<apex:outputPanel id="display">
@@ -201,11 +263,15 @@
                             <apex:outputText value="{!respEnvp.StringTimestamp}"/><br/>
                         </apex:outputPanel>
                     </apex:outputPanel>
-                    <div style="text-align:center;border-top:medium;border-top-color:black"> 
+                                        
+                    <div style="text-align:center;border-top:medium;border-top-color:black">                     
 		                <apex:outputtext id="SuccMessageID" escape="false" value="{!SuccessMessage}" style="color:green;font-weight:18px;font-size:14px;text-align:center;"/>
 		            </div>
+		            		            
+		            
                 </apex:pageBlockSection>
             </apex:pageblock>
         </apex:outputpanel>
     </apex:form>
+        
 </apex:page>
