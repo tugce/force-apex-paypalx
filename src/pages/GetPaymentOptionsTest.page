@@ -1,0 +1,165 @@
+<apex:page controller="ControllerGetPaymentOptionsApi">
+
+    <table align="center" ><tr>
+        <td style="font-size:18px"> 
+            <table><tr><td style="color:darkblue;">
+                GETPAYMENTOPTIONS TEST 
+            </td></tr></table>
+        </td>
+    </tr></table>
+
+	<apex:form >
+		<div style="text-align:center;border-top:medium;border-top-color:black"> 
+           <apex:outputtext id="ErrMessageID" escape="false" value="{!MainMessage}" style="background-color:yellow;color:red;font-weight:18px;font-size:14px;text-align:center;"/>
+        </div>
+            
+        <apex:pageblock title="Transaction">
+        
+                <apex:pageBlockButtons >
+                    <apex:commandButton action="{!apply}" value="Apply" rerender="ErrMessageID,display,responerr" status="status"/>
+                    <apex:actionstatus id="status" >
+                        <apex:facet name="start" > <apex:outputtext style="color:blue" value=" Loading..."/></apex:facet>
+                        <apex:facet name="stop" > <apex:outputtext style="color:blue" value=" "/></apex:facet>
+                    </apex:actionstatus>
+                </apex:pageBlockButtons>
+                
+                <apex:pageblocksection title="Common Request Parameters"  columns="2"  id="CommonPrmsId">
+	                  <apex:pageblocksectionitem >
+	                  		<apex:OUTPUTTEXT style="background-color:red;color:red;">Common Parameters Object Name</apex:OUTPUTTEXT>
+	                  		<apex:outputPanel >
+	                          <apex:outputText style="background-color:red;color:red;" value="I"/>
+	                        <apex:inputtext value="{!CommonParametersObjName}"/>
+	                        </apex:outputPanel>
+	                  </apex:pageblocksectionitem>                                
+	                <apex:pageblocksectionitem >
+	                    <apex:OUTPUTTEXT style="background-color:red;color:red;">API Credential Object Name:</apex:OUTPUTTEXT>
+	                        <apex:outputPanel >
+	                          <apex:outputText style="background-color:red;color:red;" value="I"/>
+	                        <apex:inputtext value="{!APICredentialObjName}"/>
+	                    </apex:outputPanel>
+	                </apex:pageblocksectionitem>                        
+            	</apex:pageblocksection>
+
+				<apex:pageblockSection title="Set Payment Options Request" columns="1" >
+				
+                   <apex:pageblocksectionitem >
+                        <apex:outputText >PayKey: </apex:outputText>
+                        <apex:outputPanel >
+                            <apex:outputText style="background-color:red;color:red;" value="I"/>
+                            <apex:inputtext value="{!PayKey}" />
+                        </apex:outputPanel>
+                   </apex:pageblocksectionitem>				
+				
+				</apex:pageblockSection>
+					
+           		<apex:pageBlockSection title="Response">
+                	<apex:outputPanel id="display">
+                        <apex:outputPanel rendered="{!isDisplay}">
+                            <h2>Ack:</h2>
+                            <apex:outputText value="{!RespEnvp.Ack}"/><br/>
+                            <h2>Build:</h2>
+                            <apex:outputText value="{!RespEnvp.Build}"/><br/>
+                            <h2>correlationId:</h2>
+                            <apex:outputText value="{!RespEnvp.CorrelationId}"/><br/>
+                            <h2>Timestamp:</h2>
+                            <apex:outputText value="{!RespEnvp.StringTimestamp}"/><br/>
+                            
+		                    <h2>DisplayOptions.EmailHeaderImageUrl:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.EmailHeaderImageUrl}"></apex:outputText><br/>
+
+		                    <h2>DisplayOptions.EmailMarketingImageUrl:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.EmailMarketingImageUrl}"></apex:outputText><br/>
+
+		                    <h2>DisplayOptions.HeaderImageUrl:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.HeaderImageUrl}"></apex:outputText><br/>
+                            
+		                    <h2>DisplayOptions.BusinessName:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.BusinessName}"></apex:outputText><br/>
+
+		                    <h2>InstCust.CountryCode:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.CountryCode}"></apex:outputText><br/>
+	
+		                    <h2>InstCust.DisplayName:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.DisplayName}"></apex:outputText><br/>
+
+		                    <h2>InstCust.Email:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.Email}"></apex:outputText><br/>
+
+		                    <h2>InstCust.FirstName:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.FirstName}"></apex:outputText><br/>
+
+		                    <h2>InstCust.LastName:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.LastName}"></apex:outputText><br/>
+
+		                    <h2>InstCust.InstitutionCustomerId:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.InstitutionCustomerId}"></apex:outputText><br/>
+
+		                    <h2>InstCust.InstitutionId:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.InstitutionId}"></apex:outputText><br/>
+		
+		                    <h2>InstCust.RequireShippingAddressSelection:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.RequireShippingAddressSelection}"></apex:outputText><br/>
+
+		                    <h2>InstCust.SharePhoneNumber:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.SharePhoneNumber}"></apex:outputText><br/>
+
+		                    <h2>InstCust.ShareAddress:</h2>
+	                        <apex:outputText value="{!GetPaymentOptionsResponse.ShareAddress}"></apex:outputText><br/>
+ 			
+		                    <h2>ReceiverOptions.Description:</h2>
+	                        <apex:outputText value="{!ReceiverOptions.Description}"></apex:outputText><br/>
+                            
+		                    <h2>ReceiverOptions.CustomId:</h2>
+	                        <apex:outputText value="{!ReceiverOptions.CustomId}"></apex:outputText><br/>                            
+                            
+		                    <h2>ReceiverOptions.InvoiceData.TotalTax : </h2>
+	                        <apex:outputText value="{!ReceiverOptions.InvoiceData.TotalTax}"></apex:outputText><br/>                            
+
+		                    <h2>ReceiverOptions.InvoiceData.TotalShipping : </h2>
+	                        <apex:outputText value="{!ReceiverOptions.InvoiceData.TotalShipping}"></apex:outputText><br/>                            
+
+		                    <h2>ReceiverOptions.Receiver.Email :</h2>
+	                        <apex:outputText value="{!ReceiverOptions.Receiver.Email}"></apex:outputText><br/>                            
+
+		                    <h2>ReceiverOptions.Receiver.Phone.phoneNumber :</h2>
+	                        <apex:outputText value="{!ReceiverOptions.Receiver.Phone.phoneNumber}"></apex:outputText><br/>                            
+
+		                    <h2>ReceiverOptions.Receiver.Phone.countryCode : </h2>
+	                        <apex:outputText value="{!ReceiverOptions.Receiver.Phone.countryCode}"></apex:outputText><br/>                            
+                            
+		                    <h2>ReceiverOptions.Receiver.Phone.extension : </h2>
+	                        <apex:outputText value="{!ReceiverOptions.Receiver.Phone.extension}"></apex:outputText><br/>                            
+                                                        
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                </apex:pageBlockSection>
+                
+               <apex:pageBlockSection title="Response Envelope">
+                   <apex:outputPanel id="responerr">
+                       <apex:outputPanel rendered="{!isErr}">
+                       <h2>Ack:</h2>
+                       <apex:outputText value="{!RespEnvp.Ack}"></apex:outputText><br/>                       
+                       
+                       <h2>Correlation Id:</h2>
+                       <apex:outputText value="{!RespEnvp.CorrelationId}"></apex:outputText><br/>
+                       
+                       <h2>Build:</h2>
+                       <apex:outputText value="{!RespEnvp.Build}"></apex:outputText><br/>
+                       
+                       <h2>Timestamp:</h2>
+                       <apex:outputText value="{!RespEnvp.StringTimestamp}"></apex:outputText><br/>
+                                              
+                       </apex:outputPanel>
+                   </apex:outputPanel>
+               </apex:pageBlockSection>            
+                        
+        
+        </apex:pageblock>
+        
+        
+	</apex:form>
+
+
+
+
+</apex:page>
