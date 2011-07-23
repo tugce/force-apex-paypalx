@@ -13,8 +13,7 @@ public class ControllerRefundApi {
 	public List<RefundInfo> refundInfoList 							{get;set;}
 	public PPRefundInfo refInfo 									{get;set;}
 	public List<PPErrorData> errData								{get;set;}
-	
-	
+		
 	public PPResponseEnvelope RespEnvp 								{get;set;}
 //	public List<PPRefundInfo> refInfo {get;set;}
 	

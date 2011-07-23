@@ -161,6 +161,8 @@ public class PPStaticRes {
 	public static final String PAYPAL_REQUEST_SOURCE_VALUE = 'FORCE_COM-Toolkit';
 	public static final String NVP_FORMAT = 'NV';
 	
+	public static final String PAYPAL_SANDBOX_EMAIL_ADDRESS = 'X-PAYPAL-SANDBOX-EMAIL-ADDRESS';
+	
 	// Other Strings
 	public static final String OPENING_BRACKET = '(';
 	public static final String CLOSING_BRACKET = ')';
@@ -217,5 +219,93 @@ public class PPStaticRes {
 	public static final String GET_USER_AGREEMENT_API = 'GetUserAgreement';
 	public static final String LANGUAGE_CODE = 'languageCode'; 
 
-	public static final String AGREEMENT = 'agreement'; 
+	public static final String AGREEMENT = 'agreement';
+	
+	
+	
+	// Set payment options Request Field
+  	public static final String SET_PAYMENT_OPTIONS_API = 'SetPaymentOptions';
+  	
+  	public static final String SHPNG_ADR_ID = 'shippingAddressId';
+  	
+  	public static final String DISPLAY_OPTIONS = 'displayOptions';
+  	public static final String DISPOPT_EMAIL_HDR_IMG_URL = 'emailHeaderImageUrl';
+  	public static final String DISPOPT_EMAIL_MKT_IMG_URL = 'emailMarketingImageUrl';
+  	public static final String DISPOPT_HDR_IMG_URL = 'headerImageUrl';
+  	public static final String DISPOPT_BUS_NAME = 'businessName';
+  
+  	public static final String INITIATING_ENTITY = 'initiatingEntity';  	
+  	public static final String INSTITUTION_CUSTOMER = 'institutionCustomer';
+  	public static final String INST_CUST_CNTRY_CD = 'countryCode';
+  	public static final String INST_CUST_DISP_NAME = 'displayName';
+  	public static final String INST_CUST_EMAIL = 'email';
+  	public static final String INST_CUST_FIRST_NAME = 'firstName';
+ 	public static final String INST_CUST_LAST_NAME = 'lastName';
+ 	public static final String INST_CUST_ID = 'institutionCustomerId';
+  	public static final String INST_ID = 'institutionId';
+  	
+  	public static final String SENDER_OPTIONS = 'senderOptions';
+  	public static final String SHARE_PHONE_NO = 'sharePhoneNumber';
+  	public static final String SHARE_ADDRESS = 'shareAddress'; 	
+  	public static final String SHPNG_ADR_SELECTION = 'requireShippingAddressSelection';
+  	
+  	public static final String RCV_OPT = 'receiverOptions';
+  	public static final String RCV_OPT_DESC = 'description';
+  	public static final String RCV_OPT_CUSTOMID = 'customId';
+  	public static final String RCV_OPT_INVOICEDATA = 'invoiceData';
+  	public static final String RCV_OPT_RCV = 'receiver';
+  	public static final String RCV_OPT_RCV_EMAIL = 'email';
+  	
+  	public static final String TOT_SHIPPING = 'totalShipping';
+  	
+  	
+  		
+	// Get payment options Fields
+  	public static final String GET_PAYMENT_OPTIONS_API = 'GetPaymentOptions';
+
+	// Get Funding Plans
+	public static final String GET_FUNDING_PLANS_API = 'GetFundingPlans';
+	public static final String FUNDING_PLAN = 'fundingPlan';
+	public static final String FUNDING_PLAN_ID = 'fundingPlanId';
+	public static final String FUNDING_AMOUNT = 'fundingAmount';
+	public static final String BACKUP_FUNDING_SOURCE = 'backupFundingSource';
+	public static final String SENDER_FEES = 'senderFees';
+	public static final String CURRENCY_CONVERSION = 'currencyConversion';
+	public static final String CHARGE = 'charge';
+	public static final String FUNDING_SRC_LAST_FOUR_OF_ACCT_NO = 'lastFourOfAccountNumber';
+	public static final String FUNDING_SRC_TYPE = 'type';
+	public static final String FUNDING_SRC_DISPLAY_NAME = 'displayName';		
+	public static final String CURRENCY_CONV_FROM = 'from';
+	public static final String CURRENCY_CONV_TO = 'to';
+	public static final String CURRENCY_CONV_EXCHNG_RATE = 'exchangeRate';
+	public static final String FUNDING_PLAN_CHARGE = 'charge';
+	public static final String FUNDING_SOURCE = 'fundingSource';
+	
+	
+	//Get Shipping Addresses
+	public static final String GET_SHIPPING_ADDRESSES_API = 'GetShippingAddresses';
+	public static final String KEY = 'key';
+	public static final String CITY = 'city';
+	public static final String LINE1 = 'line1';
+	public static final String LINE2 = 'line2';
+	public static final String POSTAL_CODE = 'postalCode';
+	public static final String STATE = 'state';
+	public static final String ADDRESS_TYPE = 'type';
+	public static final String ADDRESS_NAME = 'addresseeName';
+	public static final String ADDRESS_ID = 'addressId';
+	public static final String BASE_ADDRESS = 'baseAddress';
+	
+	
+	//New tags	
+	public static final String SENDER = 'sender';
+			
+	public static final String ADD_BANK_ACCOUNT_API = 'AddBankAccount';
+
+	public static final String ADD_PAYMENT_CARD_API = 'AddPaymentCard';
+	
+	public static final String GET_VERIFIED_STATUS_API = 'GetVerifiedStatus';
+	
+	public static final String SET_FUNDING_SRC_CONFIRMED_API = 'SetFundingSourceConfirmed';
+	
+	  		
 }

@@ -20,6 +20,8 @@ public class ControllerPayApi {
 	public Boolean FundingTypeBalance				{get;set;}
 	public Boolean FundingTypeCreditCard			{get;set;}
 	
+	
+	
     public ControllerPayApi() {
         Receivers = new List<PPReceiver>();
         Receivers.add(new PPReceiver());
@@ -31,6 +33,16 @@ public class ControllerPayApi {
         FundingTypeEcheck = false;
         FundingTypeBalance = false;
         FundingTypeCreditCard = false;
+        
+    }
+   
+   
+    public String ExperienceType {get;set;}
+   	public List<SelectOption> getExperienceTypeDropDown(){
+        List<selectoption> options = new List<selectoption>();
+        options.add(new Selectoption(STATICSTRINGS.ExpType_FULL,STATICSTRINGS.ExpType_FULL));
+        options.add(new Selectoption(STATICSTRINGS.ExpType_LIGHT,STATICSTRINGS.ExpType_LIGHT));
+        return options;
     }
    
    public String ActionType {get;set;}
@@ -95,6 +107,10 @@ public class ControllerPayApi {
         public string ActionType_PAY = 'PAY';
         public string ActionType_PAY_PRIMARY = 'PAY_PRIMARY';
         public string ActionType_PAY_CREATE = 'CREATE';
+        
+        public string ExpType_FULL = 'FULL';
+        public string ExpType_LIGHT = 'LIGHT';
+        
     }
   
     public pagereference Pay(){
@@ -150,8 +166,24 @@ public class ControllerPayApi {
 			RespEnvp = PayResponse.ResponseEnvelope;
         	if( PayResponse.PaymentExecStatus.equalsIgnoreCase('Created') ) {
         		//Page = toolkit.commitpayment(PayResponse.payKey);
-        		SuccessMessage = 'Payment Created - <a href=' + toolkit.BaseAPIProfile.getPayPalLoginPage() 
-        				+  '_ap-payment&paykey=' + PayResponse.payKey + '>click to approve</a> payKey - ' + PayResponse.payKey; 
+        		
+        		if (ExperienceType.equals(STATICSTRINGS.ExpType_FULL)){
+	        		SuccessMessage = 'Payment Created - <a href=' + toolkit.BaseAPIProfile.getPayPalLoginPage() 
+        				+  '_ap-payment&paykey=' + PayResponse.payKey + '>click to approve</a> payKey - ' + PayResponse.payKey;     			
+        		}else{
+        			
+        			String LightUrl = toolkit.BaseAPIProfile.getPayPalLightLoginPage() + '&paykey='  + PayResponse.payKey;
+        			
+					//SuccessMessage = '<a id=payWithPayPal href=' + LightUrl + ' target=PPDGFrame>PayWithPayPal</a>' ;
+										        							
+					SuccessMessage = '<a id=payWithPayPal href=javascript:payWithPayPal(' + LightUrl + ');>PayWithPayPal</a>' ;
+					
+					
+					//SuccessMessage = 'Payment Created - <a href="javascript:startDGFlow(' + LightUrl + ')";>click to approve </a> payKey -' +  + PayResponse.payKey;										
+					//SuccessMessage = 'Payment Created - <a href=' + 'https://sandbox.paypal.com/webapps/adaptivepayment/flow/pay?expType=light&paykey='  + PayResponse.payKey + '>click to approve</a> payKey - ' + PayResponse.payKey ;        			
+        		}
+        						
+
 			} else if( PayResponse.PaymentExecStatus.equalsIgnoreCase('Completed') ) {
         		//Page = new pagereference(request.returnUrl); 
         		SuccessMessage = 'Payment Completed - payKey - ' + PayResponse.payKey; 

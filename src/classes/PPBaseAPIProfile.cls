@@ -64,6 +64,9 @@ global class PPBaseAPIProfile {
 	// The subject must grant you third party access in their PayPal profile.
 	global String Subject {get; set;}
 	
+	global String SandboxEmailAddress {get; set;}
+	
+		
 	// (Required) Environment to be used (Production, Sandbox or Sandbox beta).
 	global EnvironmentType Environment { get; 
 		set {
@@ -95,6 +98,9 @@ global class PPBaseAPIProfile {
 		ServiceVersion = '';
 		Subject = '';
 		AdaptiveService = ServiceType.SERVICE_TYPE_UNKNOWN;
+		
+		SandboxEmailAddress = '';
+				
 	}
 	
 	// Constructor that sets up APICredentials and Service
@@ -104,6 +110,7 @@ global class PPBaseAPIProfile {
         // set the API credentials
         APIUsername = apiCredObj.APIUsername;
         APIPassword = apiCredObj.APIUserpassword;        
+        
         if(apiCredObj.APIProfile == '3_TOKEN') {
         	// set the API authentication type
         	APIProfile = PPBaseAPIProfile.APIProfileType.PROFILE_TYPE_THREE_TOKEN;
@@ -135,9 +142,41 @@ global class PPBaseAPIProfile {
 		ServiceVersion = '';
 		Subject = '';
 		AdaptiveService = ServiceType.SERVICE_TYPE_UNKNOWN;
+		
+		SandboxEmailAddress = '';
+		
+				
 	}
 	global String getEndPoint() { return m_EndPoint; }
     global String getPayPalLoginPage() { return m_LoginPage; }
+        
+    global String getPayPalLightLoginPage(){
+    	
+    	String l_LoginPage =  '';
+    	
+		if(EnvironmentType.ENVIRONMENT_TYPE_SANDBOX == Environment) {			
+			if(ServiceType.SERVICE_TYPE_PAYMENTS == AdaptiveService) {				
+				l_LoginPage = LIGHT_LOGIN_PAGE_SANDBOX;
+			}else if (ServiceType.SERVICE_TYPE_ACCOUNT == AdaptiveService) {
+				l_LoginPage = '';
+			}
+		} else if (EnvironmentType.ENVIRONMENT_TYPE_SANDBOX_BETA == Environment) {
+			if(ServiceType.SERVICE_TYPE_PAYMENTS == AdaptiveService) {								
+				l_LoginPage = LIGHT_LOGIN_PAGE_SANDBOX_BETA;								
+			}else if (ServiceType.SERVICE_TYPE_ACCOUNT == AdaptiveService) {
+				l_LoginPage = '';
+			}
+		} else if (EnvironmentType.ENVIRONMENT_TYPE_PRODUCTION == Environment) {
+			if (ServiceType.SERVICE_TYPE_PAYMENTS == AdaptiveService) {
+				l_LoginPage = PAYMENT_PAYPAL_LOGIN_PAGE_PRODUCTION;				
+			} else if (ServiceType.SERVICE_TYPE_ACCOUNT == AdaptiveService) {
+				l_LoginPage = '';
+			}
+		}
+		
+		return l_LoginPage;    	
+    }
+    
 		
 	// Returns header String populated with required fields that needs to be 
 	// send with http request
@@ -173,6 +212,13 @@ global class PPBaseAPIProfile {
 		if (0 < Subject.trim().length()) {
 			headers.put(PPStaticRes.PAYPAL_SECURITY_SUBJECT, Subject);
 		}
+		
+		if (0 < SandboxEmailAddress.trim().length()) {
+			headers.put(PPStaticRes.PAYPAL_SANDBOX_EMAIL_ADDRESS, SandboxEmailAddress);
+			
+			System.debug('****SandboxEmailAddress=' + SandboxEmailAddress);
+		}
+				
 		// add the source header so we know where the requests are coming from
 		headers.put(PPStaticRes.PAYPAL_REQUEST_SOURCE, PPStaticRes.PAYPAL_REQUEST_SOURCE_VALUE);
 
@@ -180,8 +226,7 @@ global class PPBaseAPIProfile {
 	}
 	
 	private void InitLoginPageAndEndPoint() {
-		if(EnvironmentType.ENVIRONMENT_TYPE_SANDBOX == Environment) {
-			
+		if(EnvironmentType.ENVIRONMENT_TYPE_SANDBOX == Environment) {			
 			if(ServiceType.SERVICE_TYPE_PAYMENTS == AdaptiveService) {				
 				m_EndPoint = PAYMENT_END_POINT_SANDBOX;
 				m_LoginPage = PAYMENT_PAYPAL_LOGIN_PAGE_SANDBOX;
@@ -190,19 +235,17 @@ global class PPBaseAPIProfile {
 				m_LoginPage = '';
 			}
 		} else if (EnvironmentType.ENVIRONMENT_TYPE_SANDBOX_BETA == Environment) {
-
 			if(ServiceType.SERVICE_TYPE_PAYMENTS == AdaptiveService) {				
-				m_EndPoint = PAYMENT_END_POINT_SANDBOX_BETA;
-				m_LoginPage = PAYMENT_PAYPAL_LOGIN_PAGE_SANDBOX_BETA;
+				m_EndPoint = PAYMENT_END_POINT_SANDBOX_BETA;				
+				m_LoginPage = PAYMENT_PAYPAL_LOGIN_PAGE_SANDBOX_BETA;								
 			}else if (ServiceType.SERVICE_TYPE_ACCOUNT == AdaptiveService) {
 				m_EndPoint = ACCOUNT_END_POINT_SANDBOX_BETA;
 				m_LoginPage = '';
 			}
 		} else if (EnvironmentType.ENVIRONMENT_TYPE_PRODUCTION == Environment) {
-
 			if (ServiceType.SERVICE_TYPE_PAYMENTS == AdaptiveService) {				
 				m_EndPoint = PAYMENT_END_POINT_PRODUCTION;
-				m_LoginPage = PAYMENT_PAYPAL_LOGIN_PAGE_PRODUCTION;
+				m_LoginPage = PAYMENT_PAYPAL_LOGIN_PAGE_PRODUCTION;				
 			} else if (ServiceType.SERVICE_TYPE_ACCOUNT == AdaptiveService) {
 				m_EndPoint = ACCOUNT_END_POINT_PRODUCTION;
 				m_LoginPage = '';
@@ -225,4 +268,12 @@ global class PPBaseAPIProfile {
     private static final String PAYMENT_PAYPAL_LOGIN_PAGE_SANDBOX = 'https://www.sandbox.paypal.com/webscr?cmd=';
     private static final String PAYMENT_PAYPAL_LOGIN_PAGE_SANDBOX_BETA = 'https://www.beta-sandbox.paypal.com/webscr?cmd=';
     private static final String PAYMENT_PAYPAL_LOGIN_PAGE_PRODUCTION = 'https://www.paypal.com/webscr?cmd=';
+    
+    
+    private static final String LIGHT_LOGIN_PAGE_SANDBOX = 'https://www.sandbox.paypal.com/webapps/adaptivepayment/flow/pay?expType=light';					
+    private static final String LIGHT_LOGIN_PAGE_SANDBOX_BETA = 'https://www.beta-sandbox.paypal.com/webapps/adaptivepayment/flow/pay?expType=light';					
+    private static final String LIGHT_LOGIN_PAGE_SANDBOX_PRODUCTION = 'https://www.paypal.com/webapps/adaptivepayment/flow/pay?expType=light';					
+   
+    
+    
 }

@@ -8,4 +8,14 @@ public class PPUtils {
     	}
     	return retVal;
     }
+        
+    public static Map<String,String> getMapWithoutSpecificKeys(Map<String, String> sourceMap, String keyPattern){
+    	Map<String, String> retVal = new Map<String, String>();
+    	set<String> keySet = sourceMap.keySet();
+    	for (String key : keySet) {
+    		if (!key.contains(keyPattern))
+    			retVal.put(key, sourceMap.get(key));
+    	}
+    	return retVal;    	
+    }
 }

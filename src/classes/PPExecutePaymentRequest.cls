@@ -7,11 +7,14 @@ global class PPExecutePaymentRequest extends PPRequest {
 	// (Required) The type of action.
     global String ActionType {get; set;}
     
+    global String FundingPlanId {get; set;}
+    
     // Constructor
 	global PPExecutePaymentRequest() {
 		ApiName = PPStaticRes.EXECUTE_PAYMENT_API;
 		ActionType = PPStaticRes.PAY_ACTION;
-		PayKey = '';
+		PayKey = '';		
+		FundingPlanId = '';
 	}
 	
 	global PPExecutePaymentRequest(String CommonRequestParametersObjectName){
@@ -36,6 +39,10 @@ global class PPExecutePaymentRequest extends PPRequest {
     			
     		if (Null != ActionType && 0 != ActionType.length())
             	requestParams.put(PPStaticRes.ACTION_TYPE, ActionType);
+
+    		if (Null != FundingPlanId && 0 != FundingPlanId.length())
+            	requestParams.put(PPStaticRes.FUNDING_PLAN_ID, FundingPlanId);            	
+            	
 		}
 	}
 }

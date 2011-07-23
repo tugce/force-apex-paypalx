@@ -58,6 +58,11 @@ global class PPPayRequest extends PPRequest {
     // Payments.
     global List<PPFundingTypeInfo> FundingtypeList {get; set;}
     
+    
+    //newly added
+    global PPSenderIdentifier Sender {get; set;}
+    
+    
     // Default Constructor
     global PPPayRequest() {
         ApiName = PPStaticRes.PAY_API;
@@ -77,6 +82,8 @@ global class PPPayRequest extends PPRequest {
         FundingtypeList = new List<PPFundingTypeInfo>();
         ClientDetails = new PPClientDetails(); 
         ReceiverList = new List<PPReceiver>();
+        
+        Sender = new PPSenderIdentifier();
     }
     
     // Constructor w/ CommonRequestParameters object
@@ -119,6 +126,8 @@ global class PPPayRequest extends PPRequest {
         TrackingId = '';
         FundingtypeList = new List<PPFundingTypeInfo>();
         ReceiverList = new List<PPReceiver>();
+        
+        Sender = new PPSenderIdentifier();
     }
     
 	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
@@ -186,6 +195,36 @@ global class PPPayRequest extends PPRequest {
             	info.populateAttributes(requestParams, fundingTypeTag);
             	counter++;
             }
+            
+			if (Null != Sender){
+				
+				String tagSender = PPStaticRes.SENDER;
+				
+				String tagEmail = PPStaticRes.SENDER + PPStaticRes.DOT + PPStaticRes.EMAIL;
+				if(Null != Sender.Email && 0 != Sender.Email.length()){
+					requestParams.put(tagEmail,Sender.Email);	
+				}
+				
+				String tagSenderPhone = tagSender + PPStaticRes.DOT + PPStaticRes.PHONE;
+				
+				String tagSenderPhoneNumebr = tagSenderPhone + PPStaticRes.DOT + PPStaticRes.PHONE_NUMBER;
+				if(Null != Sender.Phone.phoneNumber && 0 != Sender.Phone.phoneNumber.length()){
+					requestParams.put(tagSenderPhoneNumebr,Sender.Phone.phoneNumber);	
+				}
+
+				String tagSenderPhoneCountryCode = tagSenderPhone + PPStaticRes.DOT + PPStaticRes.COUNTRY_CODE;
+				if(Null != Sender.Phone.countryCode && 0 != Sender.Phone.countryCode.length()){
+					requestParams.put(tagSenderPhoneCountryCode,Sender.Phone.countryCode);	
+				}
+							
+				String tagSenderPhoneExtension = tagSenderPhone + PPStaticRes.DOT + PPStaticRes.EXTENSION;
+				if(Null != Sender.Phone.extension && 0 != Sender.Phone.extension.length()){
+					requestParams.put(tagSenderPhoneExtension,Sender.Phone.extension);	
+				}				
+				
+			}
+            	                        
+            
 		}
 	}
 }
