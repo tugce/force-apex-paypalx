@@ -17,18 +17,21 @@ global class PPPayRequest extends PPRequest {
     global String FeesPayer{get; set;}
     
     // (Optional) The URL to which you want all IPN messages for this payment to
-	//be sent. This URL supersedes the IPN notification URL in your profile.
+    //be sent. This URL supersedes the IPN notification URL in your profile.
     global String IpnNotificationUrl {get; set;}
     
     // (Optional) Whether to associate the receiver's default shipping address with
-	// the transaction.
+    // the transaction.
     global Boolean LogDefaultShippingAddress {get; set;}
     
     // (Optional) A note associated with the payment.
     global String Memo {get; set;}
     
+    // (Optional) Pay key duration it will be 24 hours
+    global String payKeyDuration {get; set;}
+    
     // (Optional) The sender's personal identification number, which was specified
-	// with the sender signed up for a preapproval.
+    // with the sender signed up for a preapproval.
     global String Pin {get; set;}
     
     // (Optional) The key associated with a preapproval for this payment.
@@ -38,14 +41,14 @@ global class PPPayRequest extends PPRequest {
     global List<PPReceiver> ReceiverList {get; set;}
     
     // (Optional) Whether to reverse parallel payments if an error occurs with a
-	// payment.
+    // payment.
     global Boolean ReverseAllParallelPaymentsOnError{get; set;}
     
     // (Optional) Sender's email address.
     global String SenderEmail {get; set;}
     
     // (Required) The URL to which the sender's browser is redirected after
-	// approving a payment on paypal.com.
+    // approving a payment on paypal.com.
     global String ReturnUrl {get; set;}
     
     // (Optional) A unique ID that you specify to track the payment.
@@ -58,11 +61,6 @@ global class PPPayRequest extends PPRequest {
     // Payments.
     global List<PPFundingTypeInfo> FundingtypeList {get; set;}
     
-    
-    //newly added
-    global PPSenderIdentifier Sender {get; set;}
-    
-    
     // Default Constructor
     global PPPayRequest() {
         ApiName = PPStaticRes.PAY_API;
@@ -73,6 +71,7 @@ global class PPPayRequest extends PPRequest {
         IpnNotificationUrl = '';
         LogDefaultShippingAddress = false;
         Memo = '';
+        payKeyDuration = 'PT23H59M';
         Pin = '';
         PreapprovalKey = '';
         ReverseAllParallelPaymentsOnError = false;
@@ -82,14 +81,12 @@ global class PPPayRequest extends PPRequest {
         FundingtypeList = new List<PPFundingTypeInfo>();
         ClientDetails = new PPClientDetails(); 
         ReceiverList = new List<PPReceiver>();
-        
-        Sender = new PPSenderIdentifier();
     }
     
     // Constructor w/ CommonRequestParameters object
     global PPPayRequest(String CommonRequestParametersObjectName, String SenderEmail) {
-    	
-    	PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
+        
+        PPCommonRequestParameters commonRequestParameters = new PPCommonRequestParameters(CommonRequestParametersObjectName);
         // set request envelope fields
         setRequestEnvelopeParams(commonRequestParameters.Language, commonRequestParameters.DetailLevel);
         // create and set client details
@@ -98,12 +95,12 @@ global class PPPayRequest extends PPRequest {
         ClientDetails.applicationId = commonRequestParameters.ApplicationName;
         // add the remote client IP address
         map<string , string> hdrs = ApexPages.currentPage().getHeaders();
-		if ( hdrs.get('x-original-remote-addr') != null)
-			ClientDetails.ipAddress = hdrs.get('x-original-remote-addr');
-		else if ( hdrs.get('X-Salesforce-SIP') != null)
-			ClientDetails.ipAddress = hdrs.get('X-Salesforce-SIP');
-		else 
-        	ClientDetails.ipAddress = '127.0.0.1';        	
+        if ( hdrs.get('x-original-remote-addr') != null)
+            ClientDetails.ipAddress = hdrs.get('x-original-remote-addr');
+        else if ( hdrs.get('X-Salesforce-SIP') != null)
+            ClientDetails.ipAddress = hdrs.get('X-Salesforce-SIP');
+        else 
+            ClientDetails.ipAddress = '127.0.0.1';          
 
         // set sender Email == sender's PayPal Id 
         SenderEmail = SenderEmail;
@@ -112,13 +109,14 @@ global class PPPayRequest extends PPRequest {
         // set the payer of PayPal fees - SENDER or PRIMARYRECEIVER or EACHRECEIVER or SECONDARYONLY
         FeesPayer = commonRequestParameters.FeePayer;
         
-    	// defaults for everything else
+        // defaults for everything else
         ApiName = PPStaticRes.PAY_API;
         ActionType = PPStaticRes.PAY_ACTION;
         CancelUrl = '';
         IpnNotificationUrl = '';
         LogDefaultShippingAddress = false;
         Memo = '';
+        payKeyDuration = 'PT23H59M';
         Pin = '';
         PreapprovalKey = '';
         ReverseAllParallelPaymentsOnError = false;
@@ -126,52 +124,53 @@ global class PPPayRequest extends PPRequest {
         TrackingId = '';
         FundingtypeList = new List<PPFundingTypeInfo>();
         ReceiverList = new List<PPReceiver>();
-        
-        Sender = new PPSenderIdentifier();
     }
     
-	global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
-		super.setRequestEnvp(language, detailLevelCode);
-	}
-	
-	public override void getRequestParams(Map<String, String> requestParams) {
-		if (Null != requestParams){
-			super.setCommonRequestParams(requestParams);
-			ClientDetails.populateAttributes(requestParams);
-			
-			if (Null != ActionType && 0 != ActionType.length())
-            	requestParams.put(PPStaticRes.ACTION_TYPE, ActionType);
-            	
+    global override void setRequestEnvelopeParams(String language, String detailLevelCode) {
+        super.setRequestEnvp(language, detailLevelCode);
+    }
+    
+    public override void getRequestParams(Map<String, String> requestParams) {
+        if (Null != requestParams){
+            super.setCommonRequestParams(requestParams);
+            ClientDetails.populateAttributes(requestParams);
+            
+            if (Null != ActionType && 0 != ActionType.length())
+                requestParams.put(PPStaticRes.ACTION_TYPE, ActionType);
+                
             if (Null != CancelUrl && 0 != CancelUrl.length())
-            	requestParams.put(PPStaticRes.CANCEL_URL, CancelUrl);
-            	
+                requestParams.put(PPStaticRes.CANCEL_URL, CancelUrl);
+                
             if (Null != CurrencyCode && 0 != CurrencyCode.length())
-            	requestParams.put(PPStaticRes.CURRENCY_CODE, CurrencyCode);
+                requestParams.put(PPStaticRes.CURRENCY_CODE, CurrencyCode);
            
             if (Null != FeesPayer && 0 != FeesPayer.length())
-            	requestParams.put(PPStaticRes.FEES_PAYER, FeesPayer);
-            	
+                requestParams.put(PPStaticRes.FEES_PAYER, FeesPayer);
+                
             if (Null != IpnNotificationUrl && 0 != IpnNotificationUrl.length())
-            	requestParams.put(PPStaticRes.IPN_NOTIFICATION_URL, IpnNotificationUrl);
-            	
+                requestParams.put(PPStaticRes.IPN_NOTIFICATION_URL, IpnNotificationUrl);
+                
             if (true == LogDefaultShippingAddress)
                 requestParams.put(PPStaticRes.LOG_DEFAULT_SHIPPING_ADDRESS, 'true');
             else
                 requestParams.put(PPStaticRes.LOG_DEFAULT_SHIPPING_ADDRESS, 'false');
-            	
+                
             if (Null != Memo && 0 != Memo.length())
-            	requestParams.put(PPStaticRes.MEMO, Memo);
-            	
-        	if (Null != Pin && 0 != Pin.length())
-        		requestParams.put(PPStaticRes.PIN, Pin);
-        	
-        	if (Null != PreapprovalKey && 0 != PreapprovalKey.length())
-        		requestParams.put(PPStaticRes.PREAPPROVAL_KEY, PreapprovalKey);
-        	
-        	Integer rcvrCnt = 0;
+                requestParams.put(PPStaticRes.MEMO, Memo);
+                
+            if(Null != payKeyDuration && 0 != payKeyDuration.length())
+                requestParams.put(PPStaticRes.PAYKEY_DURATION, payKeyDuration);
+                
+            if (Null != Pin && 0 != Pin.length())
+                requestParams.put(PPStaticRes.PIN, Pin);
+            
+            if (Null != PreapprovalKey && 0 != PreapprovalKey.length())
+                requestParams.put(PPStaticRes.PREAPPROVAL_KEY, PreapprovalKey);
+            
+            Integer rcvrCnt = 0;
             for (PPReceiver rec : ReceiverList) {
-            	String receiverTag = PPStaticRes.RECEIVER_LIST + PPStaticRes.DOT + PPStaticRes.RECEIVER + PPStaticRes.OPENING_BRACKET + rcvrCnt + PPStaticRes.CLOSING_BRACKET + PPStaticRes.DOT;
-            	rec.populateAttributes(requestParams, receiverTag);
+                String receiverTag = PPStaticRes.RECEIVER_LIST + PPStaticRes.DOT + PPStaticRes.RECEIVER + PPStaticRes.OPENING_BRACKET + rcvrCnt + PPStaticRes.CLOSING_BRACKET + PPStaticRes.DOT;
+                rec.populateAttributes(requestParams, receiverTag);
                 rcvrCnt++;
             }
 
@@ -180,51 +179,21 @@ global class PPPayRequest extends PPRequest {
             else
                 requestParams.put(PPStaticRes.REVERSE_ALL_PARALLEL_PAYMENTS_ON_ERROR, 'false');
                 
-        	if (Null != SenderEmail && 0 != SenderEmail.length())
-        		requestParams.put(PPStaticRes.SENDER_EMAIL, SenderEmail);
-        	
-        	if (Null != ReturnUrl && 0 != ReturnUrl.length())
-        		requestParams.put(PPStaticRes.RETURN_URL, ReturnUrl);
-        		
-        	if (Null != TrackingId && 0 != TrackingId.length())
-        		requestParams.put(PPStaticRes.TRACKING_ID, TrackingId);
+            if (Null != SenderEmail && 0 != SenderEmail.length())
+                requestParams.put(PPStaticRes.SENDER_EMAIL, SenderEmail);
+            
+            if (Null != ReturnUrl && 0 != ReturnUrl.length())
+                requestParams.put(PPStaticRes.RETURN_URL, ReturnUrl);
+                
+            if (Null != TrackingId && 0 != TrackingId.length())
+                requestParams.put(PPStaticRes.TRACKING_ID, TrackingId);
         
-        	Integer counter = 0;
+            Integer counter = 0;
             for (PPFundingTypeInfo info : FundingtypeList) {
-            	String fundingTypeTag = PPStaticRes.FUNDING_TYPE_LIST + PPStaticRes.DOT + PPStaticRes.FUNDING_TYPE_INFO + PPStaticRes.OPENING_BRACKET + counter + PPStaticRes.CLOSING_BRACKET + PPStaticRes.DOT;
-            	info.populateAttributes(requestParams, fundingTypeTag);
-            	counter++;
+                String fundingTypeTag = PPStaticRes.FUNDING_TYPE_LIST + PPStaticRes.DOT + PPStaticRes.FUNDING_TYPE_INFO + PPStaticRes.OPENING_BRACKET + counter + PPStaticRes.CLOSING_BRACKET + PPStaticRes.DOT;
+                info.populateAttributes(requestParams, fundingTypeTag);
+                counter++;
             }
-            
-			if (Null != Sender){
-				
-				String tagSender = PPStaticRes.SENDER;
-				
-				String tagEmail = PPStaticRes.SENDER + PPStaticRes.DOT + PPStaticRes.EMAIL;
-				if(Null != Sender.Email && 0 != Sender.Email.length()){
-					requestParams.put(tagEmail,Sender.Email);	
-				}
-				
-				String tagSenderPhone = tagSender + PPStaticRes.DOT + PPStaticRes.PHONE;
-				
-				String tagSenderPhoneNumebr = tagSenderPhone + PPStaticRes.DOT + PPStaticRes.PHONE_NUMBER;
-				if(Null != Sender.Phone.phoneNumber && 0 != Sender.Phone.phoneNumber.length()){
-					requestParams.put(tagSenderPhoneNumebr,Sender.Phone.phoneNumber);	
-				}
-
-				String tagSenderPhoneCountryCode = tagSenderPhone + PPStaticRes.DOT + PPStaticRes.COUNTRY_CODE;
-				if(Null != Sender.Phone.countryCode && 0 != Sender.Phone.countryCode.length()){
-					requestParams.put(tagSenderPhoneCountryCode,Sender.Phone.countryCode);	
-				}
-							
-				String tagSenderPhoneExtension = tagSenderPhone + PPStaticRes.DOT + PPStaticRes.EXTENSION;
-				if(Null != Sender.Phone.extension && 0 != Sender.Phone.extension.length()){
-					requestParams.put(tagSenderPhoneExtension,Sender.Phone.extension);	
-				}				
-				
-			}
-            	                        
-            
-		}
-	}
+        }
+    }
 }
